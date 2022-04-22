@@ -149,12 +149,15 @@ export async function getServerSideProps(context) {
 
   try {
     pro = await Profile.find({ user: session.user.userId });
-    if (!pro || pro.length == 0) {
+    /*if (!pro || pro.length == 0) {
       return {
         redirect: { destination: "/auth/new-user" },
-      };
-    }
-  } catch (error) {}
+      };*/
+  } catch (error) {
+    return {
+      redirect: { destination: "/auth/new-user" },
+    };
+  }
 
   try {
     profiles = await Profile.find({ user: { $ne: session.user.userId } }).sort({
