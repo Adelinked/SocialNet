@@ -16,7 +16,7 @@ import styles from "../../styles/Auth.module.css";
 
 import { toast } from "react-toastify";
 
-export default function ({ /*session,*/ providers, csrfToken }) {
+export default function ({ session, providers, csrfToken }) {
   const { query } = useRouter();
   const [status, setStatus] = useState();
   const [email, setEmail] = useState("");
@@ -241,7 +241,7 @@ export async function getServerSideProps(context) {
     };
   } else {
     return {
-      props: { providers, /*session,*/ csrfToken },
+      props: { providers, session, csrfToken },
     };
   }
 }
