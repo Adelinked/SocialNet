@@ -125,7 +125,7 @@ export default function ({ session, providers, csrfToken }) {
                   <GitHubButton
                     id={provider.id}
                     size="large"
-                    className={styles.button}
+                    sx={{ width: "250px", margin: "10px", fontWeight: "700" }}
                     onClick={() => handleClick(provider.id)}
                     type="submit"
                     variant="contained"
@@ -136,7 +136,7 @@ export default function ({ session, providers, csrfToken }) {
                   <GoogleButton
                     id={provider.id}
                     size="large"
-                    className={styles.button}
+                    sx={{ width: "250px", margin: "10px", fontWeight: "700" }}
                     onClick={() => handleClick(provider.id)}
                     type="submit"
                     variant="contained"
@@ -171,7 +171,7 @@ export default function ({ session, providers, csrfToken }) {
                     />
                     <Button
                       id={provider.id}
-                      className={styles.button}
+                      sx={{ width: "250px", margin: "10px", fontWeight: "700" }}
                       size="large"
                       variant="contained"
                       onClick={() => handleClick(provider.id)}
@@ -183,7 +183,7 @@ export default function ({ session, providers, csrfToken }) {
                 ) : (
                   <Button
                     id={provider.id}
-                    className={styles.button}
+                    sx={{ width: "250px", margin: "10px", fontWeight: "700" }}
                     size="large"
                     variant="contained"
                     onClick={() => handleClick(provider.id)}
