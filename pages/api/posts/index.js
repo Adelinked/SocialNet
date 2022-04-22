@@ -78,8 +78,6 @@ export default async function handler(req, res) {
         break;
       case "POST":
         try {
-          console.log("post", req.body);
-
           const post = await Post.create({
             ...req.body,
             profile: _id,

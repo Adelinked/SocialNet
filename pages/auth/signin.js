@@ -21,7 +21,6 @@ export default function ({ /*session,*/ providers, csrfToken }) {
   const [status, setStatus] = useState();
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
-  const router = useRouter();
 
   const validateEmail = (email) => {
     return String(email)
@@ -93,7 +92,7 @@ export default function ({ /*session,*/ providers, csrfToken }) {
         });
         break;
     }
-
+    setTimeout(() => {}, 500);
     setStatus("Loading");
   };
 
@@ -198,6 +197,7 @@ export default function ({ /*session,*/ providers, csrfToken }) {
                       variant="contained"
                       onClick={() => handleClick(provider.id)}
                       type="submit"
+                      disabled={!validEmail}
                     >
                       Sign in with {provider.name}
                     </EmailButton>
