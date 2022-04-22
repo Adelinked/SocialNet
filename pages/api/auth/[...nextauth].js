@@ -84,7 +84,7 @@ const options = {
     error: "/auth/signin",
     newUser: "/auth/new-user",
   },
-  secret: process.env.SECRET,
+  //secret: process.env.SECRET,
   callbacks: {
     session: async ({ session, token, user, pro }) => {
       if (session?.user) {
