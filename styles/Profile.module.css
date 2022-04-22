@@ -1,0 +1,76 @@
+.contProfileCard {
+  display: flex;
+  flex-direction: column;
+  /*justify-content: flex-start;*/
+  align-items: center;
+  cursor: pointer;
+  padding: 0 5px;
+  position: relative;
+}
+
+.avatarProfiles {
+  margin: 2px 0;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.profileName {
+  margin: 5px 0;
+}
+
+.title {
+  text-align: center;
+}
+.subTitle {
+  text-align: center;
+}
+
+.form {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.form * {
+  margin: 5px 5px;
+}
+.uploadButton {
+  width: 50px;
+  margin: 0 auto;
+}
+.uploaDiv {
+  display: flex;
+
+  background-color: aqua;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading {
+  margin: 15% 50%;
+}
+
+.profileView {
+  position: absolute;
+  top: -10%;
+  left: 52%;
+  width: 300px;
+  border: 1px solid #1565c0;
+  background-color: white;
+  z-index: 3;
+  border-radius: 5%;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.uploadAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarView {
+  width: 50%;
+  height: 3%;
+  object-fit: cover;
+  margin: 5px auto;
+}

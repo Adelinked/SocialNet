@@ -1,0 +1,68 @@
+.postsHr {
+  height: 0.5px;
+  color: gray;
+}
+
+.postContainer {
+  width: 100%;
+  padding: 1px 0;
+}
+
+.postFormAdd {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.postFormEdit {
+  width: 100%;
+}
+
+.postForm {
+  margin: 5px auto;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postFormInit {
+  margin: 5px auto;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postEdit {
+  width: 100%;
+
+  background-color: rgb(241, 239, 248);
+}
+.button {
+  margin-top: 2px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.profilePost {
+  border: 0.5px solid silver;
+}
+
+.reactComments {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profilePosts {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.buttonsDiv {
+  display: flex;
+}

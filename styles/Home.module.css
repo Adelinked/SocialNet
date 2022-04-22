@@ -1,0 +1,54 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+}
+.profilesAside {
+  padding: 10px;
+  width: 15%;
+  min-width: 180px;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.postsContainer {
+  padding: 10px;
+  width: 70%;
+  min-width: 250px;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+  box-sizing: content-box;
+  /*padding-bottom: 20px;*/
+}
+.futurAside {
+  padding: 10px;
+  width: 15%;
+  min-width: 180px;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.title {
+  margin: 20px 20px;
+  line-height: 1.15;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.loading {
+  margin: 15% 50%;
+}
+
+.user {
+  width: 50%;
+}

@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+}
+.reaction {
+  display: flex;
+  justify-items: flex-start;
+  position: relative;
+}
+
+.reactionCount {
+  position: absolute;
+  border-radius: 25%;
+  background-color: rgba(198, 219, 219, 0.733);
+  z-index: 1;
+  font-size: 10px;
+  left: 15px;
+  font-weight: 700;
+  top: 0;
+}
+
+.peopleReacted {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(57, 57, 73, 0.894);
+  color: white;
+  padding: 2px 5px;
+  width: 180px;
+}
