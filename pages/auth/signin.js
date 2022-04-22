@@ -7,7 +7,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
-import { purple, deepPurple, deepOrange } from "@mui/material/colors";
+import { purple, deepPurple, deepOrange, green } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 
 import Head from "next/head";
@@ -16,10 +16,25 @@ import styles from "../../styles/Auth.module.css";
 
 import { toast } from "react-toastify";
 
-export default function ({ session, providers, csrfToken }) {
+export default function ({ /*session,*/ providers, csrfToken }) {
   const { query } = useRouter();
   const [status, setStatus] = useState();
   const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const router = useRouter();
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+  const handleChgEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+    setValidEmail(validateEmail(email));
+  };
 
   const errorMsg = (error) => {
     if (error) {
@@ -60,7 +75,6 @@ export default function ({ session, providers, csrfToken }) {
   handleErrorMsg(query.error);
 
   const handleSubmit = (e) => {
-    query.error = "";
     e.preventDefault();
     const providerId = e.nativeEvent.submitter.id;
     switch (providerId) {
@@ -88,7 +102,7 @@ export default function ({ session, providers, csrfToken }) {
     setStatus("Loading");*/
   };
 
-  if (session) return null;
+  //if (session) return null;
   const GitHubButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: purple[500],
@@ -102,6 +116,14 @@ export default function ({ session, providers, csrfToken }) {
     backgroundColor: deepOrange[500],
     "&:hover": {
       backgroundColor: deepOrange[700],
+    },
+  }));
+
+  const EmailButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(green[600]),
+    backgroundColor: green[600],
+    "&:hover": {
+      backgroundColor: green[700],
     },
   }));
 
@@ -162,14 +184,14 @@ export default function ({ session, providers, csrfToken }) {
                       name="email"
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleChgEmail}
                       label="Email:"
                       sx={{
                         marginLeft: "10px",
                         width: "250px",
                       }}
                     />
-                    <Button
+                    <EmailButton
                       id={provider.id}
                       sx={{ width: "250px", margin: "10px", fontWeight: "700" }}
                       size="large"
@@ -178,7 +200,7 @@ export default function ({ session, providers, csrfToken }) {
                       type="submit"
                     >
                       Sign in with {provider.name}
-                    </Button>
+                    </EmailButton>
                   </>
                 ) : (
                   <Button
@@ -214,13 +236,12 @@ export async function getServerSideProps(context) {
   const csrfToken = await getCsrfToken(context);
 
   if (session) {
-    console.log(session);
     return {
       redirect: { destination: "/" },
     };
   } else {
     return {
-      props: { providers, session, csrfToken },
+      props: { providers, /*session,*/ csrfToken },
     };
   }
 }

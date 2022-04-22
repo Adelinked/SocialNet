@@ -28,7 +28,15 @@ export default function NewUser() {
           {session && (
             <>
               <p style={{ marginBottom: "10px" }}>
-                Welcome, {session.user.name ?? session.user.email}
+                Welcome, {session.user.name ?? session.user.email}.
+                <div style={{ margin: "10px auto", textAlign: "center" }}>
+                  <p style={{ margin: "0" }}>
+                    You are new here, please fill the infos below
+                  </p>
+                  <p style={{ margin: "0" }}>
+                    (don't worry you can modify them whenever you want)
+                  </p>
+                </div>
               </p>
 
               <ProfileForm
