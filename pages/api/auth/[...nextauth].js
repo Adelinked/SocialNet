@@ -6,7 +6,7 @@ import EmailProvider from "next-auth/providers/email";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "../../../lib/mongodb";
 import dbConnect from "../../../lib/dbConnect";
-import Users from "../../../models/UserModel";
+import Users from "../../../models/userModel";
 import { html, text } from "../../../lib/htmlEmail";
 import nodemailer from "nodemailer";
 import CredentialsProvider from "next-auth/providers/credentials";

@@ -1,6 +1,6 @@
 import dbConnect from "../../../../lib/dbConnect";
 import Comment from "../../../../models/Comment";
-import Profile from "../../../../models/Profile";
+import Profile from "../../../../models/profile";
 import ComReaction from "../../../../models/ComReaction";
 import { getSession } from "next-auth/react";
 

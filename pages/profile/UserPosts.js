@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import styles from "../../styles/Home.module.css";
 import { useSession, getSession } from "next-auth/react";
 import dbConnect from "../../lib/dbConnect";
-import Profile from "../../models/Profile";
+import Profile from "../../models/profile";
 import Post from "../../models/Post";
 import ProfilesNav from "../../components/ProfilesNav";
 import PostsNav from "../../components/PostsNav";
