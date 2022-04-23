@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import ProfileForm from "../../components/ProfileForm";
 import { useAppContext } from "../../context";
 import { useSession } from "next-auth/react";
@@ -58,6 +59,7 @@ export default function EditProfile() {
           </>
         )}
       </main>
+      <Footer />
     </div>
   );
 }

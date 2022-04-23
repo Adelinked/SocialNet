@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import styles from "../../styles/Home.module.css";
 import { useSession, getSession } from "next-auth/react";
 import dbConnect from "../../lib/dbConnect";
@@ -139,7 +140,9 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
           </>
         )}
       </main>
-      <footer className="footer"></footer>
+      <footer className="footer">
+        <Footer />
+      </footer>
     </div>
   );
 }

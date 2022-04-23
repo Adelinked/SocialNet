@@ -16,8 +16,11 @@
   left: 15px;
   font-weight: 700;
   top: 0;
+  cursor: pointer;
 }
-
+.reactIcon {
+  cursor: pointer;
+}
 .peopleReacted {
   position: absolute;
   top: 0;

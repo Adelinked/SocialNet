@@ -1,5 +1,7 @@
 import Head from "next/head";
 import Header from "../../../components/Header";
+import Footer from "../../../components/Footer";
+
 import styles from "../../../styles/Home.module.css";
 import { useSession } from "next-auth/react";
 
@@ -37,6 +39,7 @@ export default NewUser = () => {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

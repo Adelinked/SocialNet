@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import styles from "../styles/Home.module.css";
 import { useSession, getSession } from "next-auth/react";
 import dbConnect from "../lib/dbConnect";
@@ -124,11 +125,15 @@ export default function Home({ profiles, posts_profile }) {
         )}
         {!session && (
           <>
-            <p className={styles.title}>Please Sign in</p>
+            <p className={styles.title}>
+              Please <a href="/auth/signin">Sign in </a>to continue
+            </p>
           </>
         )}
       </main>
-      <footer className="footer"></footer>
+      <footer className="footer">
+        <Footer />
+      </footer>
     </div>
   );
 }
@@ -145,14 +150,15 @@ export async function getServerSideProps(context) {
     };
   }
 
-  dbConnect();
+  await dbConnect();
 
   try {
     pro = await Profile.find({ user: session.user.userId });
-    /*if (!pro || pro.length == 0) {
+    if (!pro || pro.length == 0) {
       return {
         redirect: { destination: "/auth/new-user" },
-      };*/
+      };
+    }
   } catch (error) {
     return {
       redirect: { destination: "/auth/new-user" },

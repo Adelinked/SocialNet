@@ -5,6 +5,7 @@ import {
   getSession,
 } from "next-auth/react";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
 import { useState } from "react";
 import { Button, CircularProgress, TextField } from "@mui/material";
 import { purple, deepPurple, deepOrange, green } from "@mui/material/colors";
@@ -221,6 +222,7 @@ export default function ({ session, providers, csrfToken }) {
           <CircularProgress />
         )}
       </div>
+      <Footer />
     </>
   );
 }
