@@ -150,16 +150,16 @@ export async function getServerSideProps(context) {
     };
   }
 
-  dbConnect();
+  await dbConnect();
 
-  try {
-    pro = await Profile.find({ user: session.user.userId });
-    if (!pro || pro.length == 0) {
-      return {
-        redirect: { destination: "/auth/new-user" },
-      };
-    }
-  } catch (error) {
+  pro = await Profile.find({ user: session.user.userId });
+
+  /* if (pro && pro[0].createdAt === pro[0].updatedAt) {
+    return {
+      redirect: { destination: "/auth/new-user" },
+    };
+  }*/
+  if (!pro) {
     return {
       redirect: { destination: "/auth/new-user" },
     };

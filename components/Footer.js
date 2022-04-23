@@ -10,7 +10,7 @@ export default function Footer() {
         title="Git hub"
         target="_blank"
       >
-        <i class="fa fa-github"></i>
+        <i className="fa fa-github"></i>
       </a>
       <a
         style={{ fontSize: "22px", marginRight: "5px" }}
@@ -18,7 +18,7 @@ export default function Footer() {
         title="Send an email"
         target="_blank"
       >
-        <i class="fa fa-envelope"></i>
+        <i className="fa fa-envelope"></i>
       </a>
       .
     </p>
