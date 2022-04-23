@@ -72,12 +72,7 @@ export default function Header() {
                   title={name + " (click to update your profile info)"}
                   alt=""
                   src={img}
-                  sx={
-                    ({ bgcolor: deepOrange[500] },
-                    { width: "120px" },
-                    { height: "70px" },
-                    { objectFit: "fill" })
-                  }
+                  sx={({ bgcolor: deepOrange[500] }, { objectFit: "fill" })}
                 >
                   {name[0]}
                 </Avatar>

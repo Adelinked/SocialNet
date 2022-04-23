@@ -52,3 +52,21 @@
 .user {
   width: 50%;
 }
+
+@media (max-width: 992px) {
+  .main {
+    flex-direction: column;
+  }
+  .profilesAside {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+  .postsContainer {
+    width: 100%;
+  }
+  .futurAside {
+    width: 100%;
+  }
+}

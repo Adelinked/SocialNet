@@ -40,8 +40,8 @@ a {
   cursor: pointer;
 }
 .header-avatar {
-  width: 70px;
-  height: 65px;
+  width: 90px;
+  height: 70px;
   margin-left: 25px;
   border-radius: 20%;
   object-fit: cover;
@@ -70,7 +70,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   font-family: inherit;
   user-select: none;
   color: #fff;
