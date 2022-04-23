@@ -150,7 +150,7 @@ export async function getServerSideProps(context) {
     };
   }
 
-  await dbConnect();
+  dbConnect();
 
   try {
     pro = await Profile.find({ user: session.user.userId });

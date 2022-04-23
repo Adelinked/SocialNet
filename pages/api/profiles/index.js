@@ -23,7 +23,7 @@ export default async function handler(req, res) {
           /* find all the data in our database */
           const profiles = await Profile.find({
             user: { $ne: session.user.userId },
-          });
+          }).sort({ updatedAt: -1 });
           res.status(200).json({ success: true, data: profiles });
         }
       } catch (error) {
