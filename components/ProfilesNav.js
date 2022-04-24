@@ -12,6 +12,7 @@ export default function ProfileNav(props) {
           scroll={index}
           onStatus={true}
           avatarOnly={true}
+          aside={true}
         />
       ))}
     </>

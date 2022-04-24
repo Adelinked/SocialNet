@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorClosed, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import axios from "axios";
+import "font-awesome/css/font-awesome.min.css";
 
 export default function Header() {
   const router = useRouter();
@@ -60,7 +61,7 @@ export default function Header() {
         <>
           <Link href="/">
             <a className="logo" title="Home page">
-              SocialNet
+              <i className="fa fa-globe"> SocialNet</i>
             </a>
           </Link>
 

@@ -21,6 +21,7 @@ const checkLastUpdate = (date, time) => {
 export default function ProfileCard({
   avatarOnly = false,
   onStatus = false,
+  aside = false,
   ...props
 }) {
   const router = useRouter();
@@ -56,30 +57,13 @@ export default function ProfileCard({
   };
 
   return (
-    <>
-      <div className={styles.contProfileCard} onClick={handleClick}>
-        {onStatus && checkLastUpdate(updated, checkOnlineTime) ? (
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar
-              onMouseOver={handleMouseOver}
-              onMouseLeave={handleMouseLeave}
-              className={styles.avatarProfiles}
-              alt=""
-              src={imgSrc}
-              sx={
-                ({ bgcolor: deepPurple[500] },
-                { width: "80px" },
-                { height: "40px" })
-              }
-            >
-              {name[0]}
-            </Avatar>
-          </StyledBadge>
-        ) : (
+    <div className={styles.contProfileCard} onClick={handleClick}>
+      {onStatus && checkLastUpdate(updated, checkOnlineTime) ? (
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          variant="dot"
+        >
           <Avatar
             onMouseOver={handleMouseOver}
             onMouseLeave={handleMouseLeave}
@@ -91,61 +75,76 @@ export default function ProfileCard({
               { width: "80px" },
               { height: "40px" })
             }
-          ></Avatar>
-        )}
-        {!avatarOnly && <p className={styles.profileName}>{name}</p>}
-        {showDesc && (
-          <div className={styles.profileView}>
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 1, width: "80%" },
+          >
+            {name[0]}
+          </Avatar>
+        </StyledBadge>
+      ) : (
+        <Avatar
+          onMouseOver={handleMouseOver}
+          onMouseLeave={handleMouseLeave}
+          className={styles.avatarProfiles}
+          alt=""
+          src={imgSrc}
+          sx={
+            ({ bgcolor: deepPurple[500] },
+            { width: "80px" },
+            { height: "40px" })
+          }
+        ></Avatar>
+      )}
+      {!avatarOnly && <p className={styles.profileName}>{name}</p>}
+      {showDesc && (
+        <div className={aside ? styles.profileViewAside : styles.profileView}>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "80%" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <Avatar
+              alt="Remy Sharp"
+              className={styles.avatarView}
+              src={imgSrc}
+              variant="square"
+            />
+            <TextField
+              variant="standard"
+              id="displayName"
+              name="displayName"
+              value={name}
+              label="Name:"
+              InputProps={{
+                readOnly: true,
               }}
-              noValidate
-              autoComplete="off"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                className={styles.avatarView}
-                src={imgSrc}
-                variant="square"
-              />
-              <TextField
-                variant="standard"
-                id="displayName"
-                name="displayName"
-                value={name}
-                label="Name:"
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                variant="standard"
-                label="Age (years):"
-                name="age"
-                type="text"
-                value={age}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
+            />
+            <TextField
+              variant="standard"
+              label="Age (years):"
+              name="age"
+              type="text"
+              value={age}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
 
-              <TextField
-                multiline
-                maxRows={4}
-                label="About"
-                name="someAbout"
-                type="text"
-                value={someAbout}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Box>
-          </div>
-        )}
-      </div>
-    </>
+            <TextField
+              multiline
+              maxRows={4}
+              label="About"
+              name="someAbout"
+              type="text"
+              value={someAbout}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Box>
+        </div>
+      )}
+    </div>
   );
 }

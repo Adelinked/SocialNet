@@ -133,7 +133,9 @@ export default function ({ session, providers, csrfToken }) {
         <title>SocialNet Signin</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 className="app-title">SocialNet</h1>
+      <h1 className="app-title">
+        <i className="fa fa-globe"> SocialNet</i>
+      </h1>
 
       <div className={styles.loginContainer}>
         {status !== "Loading" ? (

@@ -4,7 +4,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  padding: 15vh 0;
   margin: 0;
 }
 
@@ -18,14 +18,13 @@
 .profilesAside {
   z-index: 4;
   padding: 10px;
-  width: 15%;
-  min-width: 250px;
+  width: 10%;
   border: 1px solid rgb(0, 0, 0);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .postsContainer {
   padding: 10px;
-  width: 70%;
+  width: 80%;
   min-width: 250px;
   border: 1px solid rgb(0, 0, 0);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -35,7 +34,7 @@
 }
 .futurAside {
   padding: 10px;
-  width: 15%;
+  width: 10%;
   min-width: 180px;
   border: 1px solid rgb(0, 0, 0);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);

@@ -12,7 +12,6 @@ import PostsNav from "../components/PostsNav";
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 const postsLimit = 5;
 
 export default function Home({ profiles, posts_profile }) {
