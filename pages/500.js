@@ -12,10 +12,10 @@ export default function Custom500() {
       </Head>
       <Header />
       <main className={styles.main}>
-        <h1>SocialNet: Server-side error occurred</h1>
-        <p>
-          Try to <a href="/">refresh</a> the page.
-        </p>
+        <h3 style={{ margin: "10px" }}>
+          SocialNet: Server-side error occurred (try to <a href="/">refresh</a>{" "}
+          the page).
+        </h3>
       </main>
       <footer className="footer"></footer>
     </div>
