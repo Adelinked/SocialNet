@@ -67,6 +67,7 @@
     flex-direction: row;
     overflow-x: auto;
     overflow-y: none;
+    background-color: aquamarine;
   }
   .postsContainer {
     width: 100%;
