@@ -122,7 +122,7 @@ export default function Home({ profiles, posts_profile }) {
             <div className={styles.futurAside}></div>
           </>
         )}
-        {!session && (
+        {!session && !loading && (
           <>
             <p className={styles.title}>
               Please <a href="/auth/signin">Sign in </a>to continue
