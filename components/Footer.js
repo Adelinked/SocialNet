@@ -20,7 +20,6 @@ export default function Footer() {
       >
         <i className="fa fa-envelope"></i>
       </a>
-      .
     </p>
   );
 }

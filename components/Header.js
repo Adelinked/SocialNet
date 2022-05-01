@@ -69,15 +69,12 @@ export default function Header() {
           <Link href="/profile/EditProfile">
             <a>
               <div className="profile">
-                <Avatar
+                <img
                   className="header-avatar"
                   title={name + " (click to update your profile info)"}
                   alt=""
                   src={img}
-                  sx={{ bgcolor: deepPurple[500] }}
-                >
-                  {name[0]}
-                </Avatar>
+                />
                 <p className="userName"></p>
               </div>
             </a>
