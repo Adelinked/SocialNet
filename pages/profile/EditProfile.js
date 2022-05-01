@@ -33,7 +33,7 @@ export default function EditProfile() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
         <title>SocialNet Home</title>
         <link rel="icon" href="/favicon.ico" />

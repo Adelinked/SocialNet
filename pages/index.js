@@ -84,7 +84,7 @@ export default function Home({ profiles, posts_profile }) {
     }
   };
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
         <title>SocialNet Home</title>
         <link rel="icon" href="/favicon.ico" />
