@@ -1,5 +1,5 @@
 import styles from "../styles/Profile.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -181,6 +181,14 @@ const ProfileForm = ({ formId, profileForm, forNewProfile = true }) => {
     setLoading(false);
     setFileUp(false);
   };
+  /*const nameInput = useCallback((inputElement) => {
+    if (inputElement) {
+      inputElement.focus();
+    }
+  }, []);*/
+  useEffect(() => {
+    document.getElementById("displayName").focus();
+  }, []);
   return (
     <div>
       {formId === "add-profile-form" ? (

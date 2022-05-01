@@ -21,7 +21,10 @@ export default function ComReactions(props) {
   useEffect(() => {
     getComReactions();
   }, []);
-
+  useEffect(() => {
+    const id = setInterval(getComReactions, 15000);
+    return () => clearInterval(id);
+  }, []);
   const getComReactions = async () => {
     try {
       const res = await axios.get(

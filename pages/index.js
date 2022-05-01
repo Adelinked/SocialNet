@@ -79,15 +79,7 @@ export default function Home({ profiles, posts_profile }) {
   }, [skip]);
 
   const handleScroll = (e) => {
-    const {
-      offsetHeight,
-      scrollTop,
-      scrollHeight,
-      scrollTopMax,
-      clientHeight,
-    } = e.target.documentElement;
-
-    if (clientHeight + scrollTop === scrollHeight) {
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
       setSkip(posts.length);
     }
   };

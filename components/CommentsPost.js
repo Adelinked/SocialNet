@@ -23,6 +23,12 @@ export default function CommentsPost(props) {
   useEffect(() => {
     getComments();
   }, [loading]);
+
+  useEffect(() => {
+    const id = setInterval(getComments, 15000);
+    return () => clearInterval(id);
+  }, []);
+
   const getComments = async () => {
     try {
       const res = await axios.get(`/api/posts/comments?postId=${postId}`);
