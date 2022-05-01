@@ -57,14 +57,15 @@ export default function Header() {
   };
   return (
     <div className="header">
+      <div className="logo">
+        <Link href="/">
+          <a title="Home page">
+            <i className="fa fa-globe"> SocialNet</i>
+          </a>
+        </Link>
+      </div>
       {session && (
         <>
-          <Link href="/">
-            <a className="logo" title="Home page">
-              <i className="fa fa-globe"> SocialNet</i>
-            </a>
-          </Link>
-
           <Link href="/profile/EditProfile">
             <a>
               <div className="profile">
@@ -95,15 +96,11 @@ export default function Header() {
       )}
       {!session && (
         <>
-          <Link href="/">
-            <a className="logo">SocialNet</a>
-          </Link>
-
           <FontAwesomeIcon
             className="btn-signin"
             icon={faDoorClosed}
             style={{
-              fontSize: 20,
+              fontSize: 18,
             }}
             onClick={handleSignin}
           />

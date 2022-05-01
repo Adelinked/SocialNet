@@ -19,6 +19,7 @@
   z-index: 4;
   padding: 10px;
   width: 10%;
+
   border: 1px solid rgb(0, 0, 0);
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
@@ -66,8 +67,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    overflow-x: auto;
-    overflow-y: none;
+
+    min-width: 400px;
   }
   .postsContainer {
     width: 100%;

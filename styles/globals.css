@@ -29,11 +29,14 @@ a {
   left: 0;
   z-index: 5;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  min-width: 450px;
 }
 .logo {
-  font-weight: 800;
+  font-weight: 700;
   color: #000;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .profile {
   font-weight: 500;
@@ -47,7 +50,7 @@ a {
 .header-avatar {
   width: 70px;
   height: 65px;
-  margin-left: 25px;
+  margin-left: 35px;
   /*border-radius: 20%;
   object-fit: fill;*/
   border: 2px solid #1565c0;
