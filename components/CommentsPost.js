@@ -85,16 +85,17 @@ export default function CommentsPost(props) {
                 }}
                 post={postId}
                 setLoadingComPage={setLoading}
+                oldData={data}
+                setData={setData}
               />
               <div>
                 {data.length > 0 ? (
                   data.map((c, index) => (
-                    <>
+                    <div key={c._id}>
                       <div className={styles.profileCom}>
                         <ProfileCard profile={c.profile} avatarOnly={true} />
                         {c.isYours ? (
                           <FormComment
-                            key={index}
                             formId="edit-comment-form"
                             commentForm={{
                               text: c.text ?? "",
@@ -106,6 +107,8 @@ export default function CommentsPost(props) {
                             id={c._id}
                             forNewComment={false}
                             setLoadingComPage={setLoading}
+                            oldData={data}
+                            setData={setData}
                           />
                         ) : (
                           <TextField
@@ -131,7 +134,7 @@ export default function CommentsPost(props) {
                           userProfile={profileGlobal}
                         />
                       </div>
-                    </>
+                    </div>
                   ))
                 ) : (
                   <>

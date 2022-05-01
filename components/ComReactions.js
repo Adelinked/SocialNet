@@ -15,10 +15,12 @@ export default function ComReactions(props) {
     { type: "laughs", people: [], count: 0 },
     { type: "crys", people: [], count: 0 },
   ]);
-  const [userReaction, setUserReaction] = useState();
+  const [userReaction, setUserReaction] = useState("");
   const comId = props.comId;
+
   let reactions = [];
   useEffect(() => {
+    console.log(comId);
     getComReactions();
   }, []);
   useEffect(() => {
@@ -142,7 +144,7 @@ export default function ComReactions(props) {
         <>
           {countsReact.map((r, index) => (
             <ReactionComp
-              key={comId + index}
+              key={comId + r.type}
               count={r.count}
               type={r.type}
               people={r.people}

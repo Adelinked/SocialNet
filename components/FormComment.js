@@ -21,6 +21,8 @@ const FormComment = ({
   id,
   post,
   setLoadingComPage,
+  oldData,
+  setData,
 }) => {
   const contentType = "application/json";
   const router = useRouter();
@@ -66,8 +68,8 @@ const FormComment = ({
   };
 
   const removeData = async () => {
-    setLoadingComPage(true);
-    setLoading(true);
+    //setLoadingComPage(true);
+    // setLoading(true);
     try {
       const res = await fetch(`/api/posts/comments/${id}`, {
         method: "DELETE",
@@ -81,12 +83,13 @@ const FormComment = ({
         throw new Error(res.status);
       } else {
         const { data } = await res.json();
-        setFormValues(data);
+        //setFormValues(data);
         toast.success("Comment deleted!");
 
+        setData(oldData.filter((d) => d._id !== id));
         setClicked(false);
         setEdited(false);
-        setLoading(false);
+        // setLoading(false);
       }
     } catch (error) {}
   };
@@ -126,6 +129,17 @@ const FormComment = ({
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
         throw new Error(res.status);
+      } else {
+        const { data } = await res.json();
+        const newComment = {
+          ...data,
+          isYours: true,
+          profile,
+        };
+        setData([newComment, ...oldData]);
+        setFormValues(commentForm);
+        setClicked(false);
+        setEdited(false);
       }
     } catch (error) {}
   };
@@ -137,8 +151,8 @@ const FormComment = ({
     setErrors(err);
   };
   const handleSubmit = (e) => {
-    setLoadingComPage(true);
-    setLoading(true);
+    //setLoadingComPage(true);
+    //setLoading(true);
     e.preventDefault();
     formValidate();
     if (errors.length === 0) {
