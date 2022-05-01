@@ -129,7 +129,7 @@ a {
     height: 55px;
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 428px) {
   .btn-signin {
     font-size: 0.8rem;
     font-weight: 500;
