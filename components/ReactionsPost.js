@@ -19,6 +19,11 @@ export default function ReactionsPost(props) {
   const [userReaction, setUserReaction] = useState("");
   const postId = props.post._id;
   let reactions = [];
+
+  useEffect(() => {
+    getReactions();
+  }, []);
+
   useEffect(() => {
     const id = setInterval(getReactions, 15000);
     return () => clearInterval(id);
