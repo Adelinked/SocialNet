@@ -64,11 +64,11 @@
 
 .profileViewAside {
   position: absolute;
-  top: -10%;
-  left: 52%;
-  width: 300px;
+  top: 10%;
+  left: 80%;
+  width: 100px;
   border: 1px solid #1565c0;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.786);
   z-index: 4;
   border-radius: 5%;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -85,12 +85,4 @@
   height: 3%;
   object-fit: cover;
   margin: 5px auto;
-}
-
-@media (max-width: 992px) {
-  .profileViewAside {
-    position: relative;
-    top: -10%;
-    left: 10%;
-  }
 }
