@@ -11,12 +11,14 @@ import PostsNav from "../../components/PostsNav";
 import { CircularProgress } from "@mui/material";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-const postsLimit = 5;
+import {
+  TIME_PROFILES_UPDATE,
+  POSTS_LIMIT,
+  TIME_REFRESH_POSTS,
+} from "../../variables";
 
 export default function UserPosts({ profiles, profile_posts, selectedProf }) {
   const { data: session, status } = useSession();
-
   const [posts, setPosts] = useState(profile_posts);
   const [profilesCli, setProfilesCli] = useState(profiles);
   const [selectedProfCli, setSelectedProfCli] = useState(selectedProf);
@@ -24,16 +26,12 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
   const [skip, setSkip] = useState(0);
   const [bottomLoad, setBottomLoad] = useState(false);
   const [msg, setMsg] = useState("");
-  const relaodHomePage = () => {
-    refreshPosts();
-    refreshProfiles();
-    refreshSelecProfile();
-  };
 
   useEffect(() => {
     setPosts(profile_posts);
+    setSelectedProfCli(selectedProf);
     setSkip(0);
-  }, [selectedProf.displayName]);
+  }, [selectedProf]);
 
   useEffect(() => {
     document.addEventListener("scroll", handleScroll);
@@ -41,59 +39,99 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
       document.removeEventListener("scroll", handleScroll);
     };
   });
-  useEffect(() => {
-    const id = setInterval(relaodHomePage, 15000);
-    return () => clearInterval(id);
-  }, [posts]);
-
-  async function refreshPosts() {
-    try {
-      const res = await axios.get(
-        `/api/posts?skip=0&limit=${posts.length}&name=${selectedProf.displayName}`
-      );
-      const { data } = res;
-      setPosts(data.data);
-    } catch (error) {}
-  }
-  async function refreshProfiles() {
-    try {
-      const res = await axios.get(`/api/profiles`);
-      const { data } = res;
-      setProfilesCli(data.data);
-    } catch (error) {}
-  }
-
-  async function refreshSelecProfile() {
-    try {
-      const res = await axios.get(`/api/profiles/${selectedProf._id}`);
-      const { data } = res;
-      setSelectedProfCli(data.data);
-    } catch (error) {}
-  }
 
   useEffect(() => {
-    async function getPosts() {
+    let controller = new AbortController();
+    async function refreshPosts() {
       try {
-        setBottomLoad(true);
         const res = await axios.get(
-          `/api/posts?skip=${skip}&limit=${postsLimit}&name=${selectedProf.displayName}`
+          `/api/posts?skip=0&limit=${posts.length}&name=${selectedProf.displayName}`,
+          {
+            signal: controller.signal,
+          }
         );
         const { data } = res;
-
-        setPosts([...posts, ...data.data]);
-        if (data.data.length == 0) {
-          setMsg("No more posts to diplay");
-          setTimeout(() => {
-            setMsg("");
-          }, 1500);
-        }
-        setBottomLoad(false);
+        setPosts(data.data);
+        controller = null;
       } catch (error) {}
     }
-    if (skip >= postsLimit) {
-      getPosts();
+    const id = setInterval(refreshPosts, TIME_REFRESH_POSTS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [posts]);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    const refreshProfiles = async () => {
+      try {
+        const res = await axios.get(`/api/profiles`, {
+          signal: controller.signal,
+        });
+        const { data } = res;
+        setProfilesCli(data.data);
+        controller = null;
+      } catch (error) {}
+    };
+    const id = setInterval(refreshProfiles, TIME_PROFILES_UPDATE); // refresh profiles
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [profilesCli]);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    const refreshProfiles = async () => {
+      try {
+        const res = await axios.get(`/api/profiles/${selectedProf._id}`, {
+          signal: controller.signal,
+        });
+        const { data } = res;
+        setSelectedProfCli(data.data);
+        controller = null;
+      } catch (error) {}
+    };
+    const id = setInterval(refreshProfiles, TIME_PROFILES_UPDATE); // refresh profiles
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [selectedProfCli]);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    let timeOutId;
+    if (skip > 0) {
+      (async () => {
+        try {
+          setBottomLoad(true);
+          const res = await axios.get(
+            `/api/posts?skip=${skip}&limit=${POSTS_LIMIT}&name=${selectedProf.displayName}`,
+            { signal: controller.signal }
+          );
+          const { data } = res;
+          setPosts([...posts, ...data.data]);
+          controller = null;
+          if (data.data.length == 0) {
+            setMsg("No more posts to diplay");
+            timeOutId = setTimeout(() => {
+              setMsg("");
+            }, 1500);
+          }
+          setBottomLoad(false);
+        } catch (error) {
+          setBottomLoad(false);
+        }
+      })();
     }
+    return () => {
+      controller?.abort();
+      clearTimeout(timeOutId);
+    };
   }, [skip]);
+
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target.documentElement;
     if (clientHeight + scrollTop === scrollHeight) {
@@ -101,7 +139,7 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
     }
   };
   return (
-    <div className="container">
+    <div className="container" style={{ backgroundColor: "var(--color-bgd2)" }}>
       <Head>
         <title>SocialNet Home</title>
         <link rel="icon" href="/favicon.ico" />
@@ -161,7 +199,7 @@ export async function getServerSideProps(context) {
     };
   }
 
-  dbConnect();
+  await dbConnect();
 
   try {
     pro = await Profile.find({ user: session.user.userId });
@@ -178,8 +216,11 @@ export async function getServerSideProps(context) {
     });
   } catch (error) {}
 
-  selectedProf = await Profile.find({ displayName: name });
-  const idSelected = String(selectedProf[0]._id);
+  selectedProf = await Profile.find({ displayName: String(name) });
+  if (!selectedProf || selectedProf.length <= 0)
+    return {
+      redirect: { destination: "/" },
+    };
 
   const posts = await Post.find(
     {
@@ -187,10 +228,9 @@ export async function getServerSideProps(context) {
     },
     undefined,
     {
-      limit: postsLimit,
+      limit: POSTS_LIMIT,
     }
   ).sort({ updatedAt: -1 });
-
   return {
     props: {
       profiles: JSON.parse(JSON.stringify(profiles)),

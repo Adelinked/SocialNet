@@ -12,9 +12,13 @@ import PostsNav from "../components/PostsNav";
 import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-const postsLimit = 5;
+import {
+  TIME_PROFILES_UPDATE,
+  POSTS_LIMIT,
+  TIME_REFRESH_POSTS,
+} from "../variables";
 
-export default function Home({ profiles, posts_profile }) {
+export default function Home({ profiles, posts_profile, profile }) {
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState(posts_profile);
   const [profilesCli, setProfilesCli] = useState(profiles);
@@ -23,10 +27,6 @@ export default function Home({ profiles, posts_profile }) {
   const [skip, setSkip] = useState(0);
   const [bottomLoad, setBottomLoad] = useState(false);
   const [msg, setMsg] = useState("");
-  const relaodHomePage = () => {
-    refreshPosts();
-    refreshProfiles();
-  };
 
   useEffect(() => {
     document.addEventListener("scroll", handleScroll);
@@ -36,46 +36,74 @@ export default function Home({ profiles, posts_profile }) {
   });
 
   useEffect(() => {
-    const id = setInterval(relaodHomePage, 20000);
-    return () => clearInterval(id);
+    let controller = new AbortController();
+    async function refreshPosts() {
+      try {
+        const res = await axios.get(`/api/posts?skip=0&limit=${posts.length}`, {
+          signal: controller.signal,
+        });
+        const { data } = res;
+        setPosts(data.data);
+        console.log("posts refreshed");
+        controller = null;
+      } catch (error) {}
+    }
+    const id = setInterval(refreshPosts, TIME_REFRESH_POSTS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
   }, [posts]);
 
-  async function refreshProfiles() {
-    try {
-      const res = await axios.get(`/api/profiles`);
-      const { data } = res;
-      setProfilesCli(data.data);
-    } catch (error) {}
-  }
-
-  async function refreshPosts() {
-    try {
-      const res = await axios.get(`/api/posts?skip=0&limit=${posts.length}`);
-      const { data } = res;
-      setPosts(data.data);
-    } catch (error) {}
-  }
-  async function getPosts() {
-    try {
-      setBottomLoad(true);
-      const res = await axios.get(
-        `/api/posts?skip=${skip}&limit=${postsLimit}`
-      );
-      const { data } = res;
-      setPosts([...posts, ...data.data]);
-      if (data.data.length == 0) {
-        setMsg("No more posts to diplay");
-        setTimeout(() => {
-          setMsg("");
-        }, 1500);
-      }
-      setBottomLoad(false);
-    } catch (error) {}
-  }
   useEffect(() => {
+    let controller = new AbortController();
+    const refreshProfiles = async () => {
+      try {
+        const res = await axios.get(`/api/profiles`, {
+          signal: controller.signal,
+        });
+        const { data } = res;
+        setProfilesCli(data.data);
+        controller = null;
+      } catch (error) {}
+    };
+    const id = setInterval(refreshProfiles, TIME_PROFILES_UPDATE); // refresh profiles
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [profilesCli]);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    let timeOutId;
     if (skip > 0) {
-      getPosts();
+      (async () => {
+        try {
+          setBottomLoad(true);
+          const res = await axios.get(
+            `/api/posts?skip=${skip}&limit=${POSTS_LIMIT}`,
+            { signal: controller.signal }
+          );
+          const { data } = res;
+          setPosts([...posts, ...data.data]);
+          controller = null;
+          if (data.data.length == 0) {
+            setMsg("No more posts to diplay");
+            timeOutId = setTimeout(() => {
+              setMsg("");
+            }, 1500);
+          }
+          setBottomLoad(false);
+        } catch (error) {
+          setBottomLoad(false);
+        }
+      })();
     }
+    return () => {
+      controller?.abort();
+      clearTimeout(timeOutId);
+    };
   }, [skip]);
 
   const handleScroll = (e) => {
@@ -131,7 +159,7 @@ export default function Home({ profiles, posts_profile }) {
 
 export async function getServerSideProps(context) {
   let profiles = [],
-    pro,
+    pro = [],
     posts_profile = [];
 
   const session = await getSession(context);
@@ -150,11 +178,14 @@ export async function getServerSideProps(context) {
       redirect: { destination: "/auth/new-user" },
     };
   }*/
-  if (!pro) {
+  if (!pro || pro.length <= 0) {
     return {
       redirect: { destination: "/auth/new-user" },
     };
   }
+  //console.log(pro);
+
+  //console.log(session);
 
   try {
     profiles = await Profile.find({ user: { $ne: session.user.userId } }).sort({
@@ -163,7 +194,9 @@ export async function getServerSideProps(context) {
   } catch (error) {}
 
   try {
-    const result = await Post.find({}, undefined, { limit: Number(postsLimit) })
+    const result = await Post.find({}, undefined, {
+      limit: Number(POSTS_LIMIT),
+    })
       .sort({ updatedAt: -1 })
       .populate({
         path: "profile",

@@ -257,7 +257,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
         <div className={styles.postFormCont}>
           <form
             id={formId}
-            className={(forNewPost || clicked) && styles.postForm}
+            className={forNewPost || clicked ? styles.postForm : undefined}
             onSubmit={handleSubmit}
           >
             <div
@@ -270,7 +270,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
               }
             >
               <TextField
-                className={(forNewPost || clicked) && styles.postEdit}
+                className={forNewPost || clicked ? styles.postEdit : undefined}
                 multiline
                 label={
                   !formValues.text.value && forNewPost
@@ -292,9 +292,9 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
                 error={
                   forNewPost
                     ? errors[0] !== "Post empty!"
-                      ? errors[0]
-                      : ""
-                    : errors[0]
+                      ? errors[0]?.length > 0
+                      : false
+                    : errors[0]?.length > 0
                 }
                 sx={{ width: "100%" }}
                 variant="filled"
@@ -381,11 +381,11 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
             </div>
             <div>
               {(fileUp || formValues.postImg) && (
-                <div className={styles.uploaDiv}>
+                <div className={styles.imgDiv}>
                   <img
                     alt=""
                     src={formValues.postImg ?? uploadedImg}
-                    style={{ width: "100%", objectFit: "fill" }}
+                    className={styles.image}
                     onFocus={handleFocus}
                   />
                 </div>

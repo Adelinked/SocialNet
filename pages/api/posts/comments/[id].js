@@ -41,7 +41,6 @@ export default async function handler(req, res) {
     case "DELETE": // Delete a model by its ID
       try {
         const deletedComReact = await ComReaction.deleteMany({ comment: id }); //clean comment reactions form DB
-        console.log("comReact", deletedComReact);
         const deletedComment = await Comment.deleteOne({ _id: id });
         if (!deletedComment) {
           return res.status(400).json({ success: false });

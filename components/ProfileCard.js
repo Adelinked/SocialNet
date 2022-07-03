@@ -4,15 +4,14 @@ import { deepOrange, deepPurple } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { StyledBadge } from "./StyledBadge";
-
-const checkOnlineTime = 5; // if user not active for more than this they are considered offline
+import { OLD_ONLINE_STATUS } from "../variables";
 
 const checkLastUpdate = (date, time) => {
   const d = new Date(date);
   const now = new Date();
   const diff = now - d;
 
-  if (diff > time * 60 * 1000) {
+  if (diff > time) {
     return false;
   }
   return true;
@@ -36,8 +35,8 @@ export default function ProfileCard({
   const handleMouseOver = (e) => {
     setShowDesc(true);
 
-    setTimeout(() => setShowDesc(false), 2500);
-
+    const id = setTimeout(() => setShowDesc(false), 2500);
+    //clearTimeout(id);
     /*const itemHeight = scroll * 55;
     const screenHeight = window.innerHeight;
     const scrollY = window.scrollY;
@@ -58,7 +57,7 @@ export default function ProfileCard({
 
   return (
     <div className={styles.contProfileCard} onClick={handleClick}>
-      {onStatus && checkLastUpdate(updated, checkOnlineTime) ? (
+      {onStatus && checkLastUpdate(updated, OLD_ONLINE_STATUS) ? (
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}

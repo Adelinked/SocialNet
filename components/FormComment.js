@@ -191,14 +191,17 @@ const FormComment = ({
         <>
           <form
             id={formId}
-            className={(forNewComment || clicked) && styles.commentForm}
+            className={
+              forNewComment || clicked ? styles.commentForm : undefined
+            }
             onSubmit={handleSubmit}
             style={{ width: "100%" }}
           >
             <TextField
-              className={(forNewComment || clicked) && styles.commentEdit}
+              className={
+                forNewComment || clicked ? styles.commentEdit : undefined
+              }
               multiline
-              maxRows={10}
               rows={2}
               label={
                 !formValues.text.value && forNewComment
@@ -220,9 +223,9 @@ const FormComment = ({
               error={
                 forNewComment
                   ? errors[0] !== "Comment empty!"
-                    ? errors[0]
-                    : ""
-                  : errors[0]
+                    ? errors[0]?.length > 0
+                    : false
+                  : errors[0]?.length > 0
               }
               sx={{ width: "100%", margin: 0 }}
               variant="filled"

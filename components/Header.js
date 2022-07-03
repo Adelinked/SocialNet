@@ -9,7 +9,7 @@ import { faDoorClosed, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
-
+import { USER_REFRESH_STATUS } from "../variables";
 export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -36,20 +36,47 @@ export default function Header() {
     img = profile.imgUrl;
   }
 
-  const setProfileOn = async () => {
-    if (!profile) return;
-    const id = profile._id;
-
-    try {
-      const onLine = await axios.put(`/api/profiles/${id}`, {
-        onLine: true,
-      });
-    } catch (error) {}
-  };
+  useEffect(() => {
+    let controller = new AbortController();
+    const setProfileOn = async () => {
+      if (!profile) return;
+      const id = profile._id;
+      try {
+        const onLine = await axios.put(
+          `/api/profiles/${id}`,
+          {
+            onLine: true,
+          },
+          { signal: controller.signal }
+        );
+      } catch (error) {}
+    };
+    setProfileOn();
+    return () => {
+      controller?.abort();
+    };
+  }, []);
 
   useEffect(() => {
-    const id = setInterval(setProfileOn, 120000);
-    return () => clearInterval(id);
+    let controller = new AbortController();
+    const setProfileOn = async () => {
+      if (!profile) return;
+      const id = profile._id;
+      try {
+        const onLine = await axios.put(
+          `/api/profiles/${id}`,
+          {
+            onLine: true,
+          },
+          { signal: controller.signal }
+        );
+      } catch (error) {}
+    };
+    const id = setInterval(setProfileOn, USER_REFRESH_STATUS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
   }, []);
 
   const handleClick = () => {

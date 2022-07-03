@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { CircularProgress } from "@mui/material";
 import ReactionComp from "./ReactionComp";
+import { TIME_REFRESH_COMMENT_REACTIONS } from "../variables";
 
 export default function ComReactions(props) {
   const [loadingCom, setLoadingCom] = useState(false);
@@ -20,74 +21,144 @@ export default function ComReactions(props) {
 
   let reactions = [];
   useEffect(() => {
-    console.log(comId);
-    getComReactions();
-  }, []);
-  useEffect(() => {
-    const id = setInterval(getComReactions, 15000);
-    return () => clearInterval(id);
-  }, []);
-  const getComReactions = async () => {
-    try {
-      const res = await axios.get(
-        `/api/posts/comments/reactions?comId=${comId}`
-      );
-      if (res.data.data.length > 0) {
-        reactions = res.data.data;
-      }
-      let likes = 0,
-        dislikes = 0,
-        react1s = 0,
-        react2s = 0,
-        react3s = 0;
-      let people_liked = [];
-      let people_disliked = [];
-      let people_react1 = [];
-      let people_react2 = [];
-      let people_react3 = [];
-
-      if (reactions.length > 0) {
-        reactions.forEach((r) => {
-          const person = r.profile.displayName;
-          switch (r.type) {
-            case "like":
-              likes++;
-              people_liked.push(person);
-              break;
-            case "dislike":
-              dislikes++;
-              people_disliked.push(person);
-              break;
-            case "love":
-              react1s++;
-              people_react1.push(person);
-              break;
-            case "laugh":
-              react2s++;
-              people_react2.push(person);
-              break;
-            case "cry":
-              react3s++;
-              people_react3.push(person);
-              break;
-          }
-          if (props.userProfile._id === r.profile._id) {
-            setUserReaction(r.type);
-          }
-        });
-
-        setCountsReact(
-          [
-            { type: "likes", count: likes, people: people_liked },
-            { type: "dislikes", count: dislikes, people: people_disliked },
-            { type: "loves", count: react1s, people: people_react1 },
-            { type: "laughs", count: react2s, people: people_react2 },
-            { type: "crys", count: react3s, people: people_react3 },
-          ].sort((a, b) => b.count - a.count)
+    let controller = new AbortController();
+    (async () => {
+      try {
+        const res = await axios.get(
+          `/api/posts/comments/reactions?comId=${comId}`,
+          { signal: controller.signal }
         );
-      }
-    } catch (error) {}
-  };
+        if (res.data.data.length > 0) {
+          reactions = res.data.data;
+        }
+        let likes = 0,
+          dislikes = 0,
+          react1s = 0,
+          react2s = 0,
+          react3s = 0;
+        let people_liked = [];
+        let people_disliked = [];
+        let people_react1 = [];
+        let people_react2 = [];
+        let people_react3 = [];
+
+        if (reactions.length > 0) {
+          reactions.forEach((r) => {
+            const person = r.profile.displayName;
+            switch (r.type) {
+              case "like":
+                likes++;
+                people_liked.push(person);
+                break;
+              case "dislike":
+                dislikes++;
+                people_disliked.push(person);
+                break;
+              case "love":
+                react1s++;
+                people_react1.push(person);
+                break;
+              case "laugh":
+                react2s++;
+                people_react2.push(person);
+                break;
+              case "cry":
+                react3s++;
+                people_react3.push(person);
+                break;
+            }
+            if (props.userProfile._id === r.profile._id) {
+              setUserReaction(r.type);
+            }
+          });
+
+          setCountsReact(
+            [
+              { type: "likes", count: likes, people: people_liked },
+              { type: "dislikes", count: dislikes, people: people_disliked },
+              { type: "loves", count: react1s, people: people_react1 },
+              { type: "laughs", count: react2s, people: people_react2 },
+              { type: "crys", count: react3s, people: people_react3 },
+            ].sort((a, b) => b.count - a.count)
+          );
+          controller = null;
+        }
+      } catch (error) {}
+    })();
+    return () => controller?.abort();
+  }, []);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    const getComReactions = async () => {
+      try {
+        const res = await axios.get(
+          `/api/posts/comments/reactions?comId=${comId}`,
+          { signal: controller.signal }
+        );
+        if (res.data.data.length > 0) {
+          reactions = res.data.data;
+        }
+        let likes = 0,
+          dislikes = 0,
+          react1s = 0,
+          react2s = 0,
+          react3s = 0;
+        let people_liked = [];
+        let people_disliked = [];
+        let people_react1 = [];
+        let people_react2 = [];
+        let people_react3 = [];
+
+        if (reactions.length > 0) {
+          reactions.forEach((r) => {
+            const person = r.profile.displayName;
+            switch (r.type) {
+              case "like":
+                likes++;
+                people_liked.push(person);
+                break;
+              case "dislike":
+                dislikes++;
+                people_disliked.push(person);
+                break;
+              case "love":
+                react1s++;
+                people_react1.push(person);
+                break;
+              case "laugh":
+                react2s++;
+                people_react2.push(person);
+                break;
+              case "cry":
+                react3s++;
+                people_react3.push(person);
+                break;
+            }
+            if (props.userProfile._id === r.profile._id) {
+              setUserReaction(r.type);
+            }
+          });
+
+          setCountsReact(
+            [
+              { type: "likes", count: likes, people: people_liked },
+              { type: "dislikes", count: dislikes, people: people_disliked },
+              { type: "loves", count: react1s, people: people_react1 },
+              { type: "laughs", count: react2s, people: people_react2 },
+              { type: "crys", count: react3s, people: people_react3 },
+            ].sort((a, b) => b.count - a.count)
+          );
+          controller = null;
+        }
+      } catch (error) {}
+    };
+    const id = setInterval(getComReactions, TIME_REFRESH_COMMENT_REACTIONS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [countsReact]);
 
   const handleClick = useCallback(
     (reaction) => {

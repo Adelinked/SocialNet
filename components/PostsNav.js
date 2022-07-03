@@ -8,7 +8,7 @@ export default function PostsNav(props) {
       {props.postsOnly && (
         <div className={styles.profilePosts}>
           {props.posts.length > 0 ? (
-            <p style={{ margin: 0 }}>Posed By</p>
+            <p style={{ margin: 0 }}>All Posts made By</p>
           ) : (
             <p style={{ margin: 0 }}>Nothing posted by:</p>
           )}
@@ -21,20 +21,9 @@ export default function PostsNav(props) {
       )}
       {}
       {props.posts.map((p, index) => (
-        <div className={styles.profilePost} key={String(p._id)}>
-          {!props.postsOnly && (
-            <ProfileCard
-              key={"Pro" + String(p._id)}
-              profile={p}
-              scroll={3 * index}
-            />
-          )}
-          <PostView
-            key={"Post" + String(p._id)}
-            post={p}
-            setPosts={props.setPosts}
-            posts={props.posts}
-          />
+        <div className={styles.profilePost} key={p._id}>
+          {!props.postsOnly && <ProfileCard profile={p} scroll={3 * index} />}
+          <PostView post={p} setPosts={props.setPosts} posts={props.posts} />
         </div>
       ))}
     </>

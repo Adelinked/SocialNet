@@ -86,12 +86,12 @@ const options = {
   },
   //secret: process.env.SECRET,
   callbacks: {
-    session: async ({ session, token, user, pro }) => {
+    session: ({ session, token, user, pro }) => {
       if (session?.user) {
         session.user.userId = user.id;
       }
 
-      return Promise.resolve(session);
+      return session;
     },
     jwt: async ({ user, token }) => {
       if (user) {

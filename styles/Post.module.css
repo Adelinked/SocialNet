@@ -1,3 +1,12 @@
+.imgDiv {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.image {
+  width: 70%;
+  object-fit: cover;
+}
 .postsHr {
   height: 0.5px;
   color: gray;
@@ -65,4 +74,10 @@
 
 .buttonsDiv {
   display: flex;
+}
+
+@media (max-width: 576px) {
+  .image {
+    width: 100%;
+  }
 }

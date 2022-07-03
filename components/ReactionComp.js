@@ -58,7 +58,7 @@ export default function ReactionComp(props) {
           {people && people.length > 0 && (
             <>
               {people.map((p) => (
-                <p>{p}</p>
+                <p key={p}>{p}</p>
               ))}
             </>
           )}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import ReactionComp from "./ReactionComp";
 import "font-awesome/css/font-awesome.min.css";
+import { TIME_REFRESH_POST_REACTIONS } from "../variables";
 
 export default function ReactionsPost(props) {
   const [loading, setLoading] = useState(false);
@@ -21,74 +22,143 @@ export default function ReactionsPost(props) {
   let reactions = [];
 
   useEffect(() => {
+    let controller = new AbortController();
+    const getReactions = async () => {
+      try {
+        const res = await axios.get(`/api/posts/reactions?postId=${postId}`, {
+          signal: controller.signal,
+        });
+
+        if (res.data.data.length > 0) {
+          reactions = res.data.data;
+        }
+        let likes = 0,
+          dislikes = 0,
+          react1s = 0,
+          react2s = 0,
+          react3s = 0;
+        let people_liked = [];
+        let people_disliked = [];
+        let people_react1 = [];
+        let people_react2 = [];
+        let people_react3 = [];
+
+        if (reactions.length > 0) {
+          reactions.forEach((r) => {
+            const person = r.profile.displayName;
+            switch (r.type) {
+              case "like":
+                likes++;
+                people_liked.push(person);
+                break;
+              case "dislike":
+                dislikes++;
+                people_disliked.push(person);
+                break;
+              case "love":
+                react1s++;
+                people_react1.push(person);
+                break;
+              case "laugh":
+                react2s++;
+                people_react2.push(person);
+                break;
+              case "cry":
+                react3s++;
+                people_react3.push(person);
+                break;
+            }
+            if (props.userProfile._id === r.profile._id) {
+              setUserReaction(r.type);
+            }
+          });
+          setCounts(
+            [
+              { type: "likes", count: likes, people: people_liked },
+              { type: "dislikes", count: dislikes, people: people_disliked },
+              { type: "loves", count: react1s, people: people_react1 },
+              { type: "laughs", count: react2s, people: people_react2 },
+              { type: "crys", count: react3s, people: people_react3 },
+            ].sort((a, b) => b.count - a.count)
+          );
+          controller = null;
+        }
+      } catch (error) {}
+    };
     getReactions();
+    return () => controller?.abort();
   }, []);
 
   useEffect(() => {
-    const id = setInterval(getReactions, 15000);
-    return () => clearInterval(id);
-  }, []);
-
-  const getReactions = async () => {
-    try {
-      const res = await axios.get(`/api/posts/reactions?postId=${postId}`);
-
-      if (res.data.data.length > 0) {
-        reactions = res.data.data;
-      }
-      let likes = 0,
-        dislikes = 0,
-        react1s = 0,
-        react2s = 0,
-        react3s = 0;
-      let people_liked = [];
-      let people_disliked = [];
-      let people_react1 = [];
-      let people_react2 = [];
-      let people_react3 = [];
-
-      if (reactions.length > 0) {
-        reactions.forEach((r) => {
-          const person = r.profile.displayName;
-          switch (r.type) {
-            case "like":
-              likes++;
-              people_liked.push(person);
-              break;
-            case "dislike":
-              dislikes++;
-              people_disliked.push(person);
-              break;
-            case "love":
-              react1s++;
-              people_react1.push(person);
-              break;
-            case "laugh":
-              react2s++;
-              people_react2.push(person);
-              break;
-            case "cry":
-              react3s++;
-              people_react3.push(person);
-              break;
-          }
-          if (props.userProfile._id === r.profile._id) {
-            setUserReaction(r.type);
-          }
+    let controller = new AbortController();
+    const getReactions = async () => {
+      try {
+        const res = await axios.get(`/api/posts/reactions?postId=${postId}`, {
+          signal: controller.signal,
         });
 
-        setCounts(
-          [
-            { type: "likes", count: likes, people: people_liked },
-            { type: "dislikes", count: dislikes, people: people_disliked },
-            { type: "loves", count: react1s, people: people_react1 },
-            { type: "laughs", count: react2s, people: people_react2 },
-            { type: "crys", count: react3s, people: people_react3 },
-          ].sort((a, b) => b.count - a.count)
-        );
-      }
-    } catch (error) {}
-  };
+        if (res.data.data.length > 0) {
+          reactions = res.data.data;
+        }
+        let likes = 0,
+          dislikes = 0,
+          react1s = 0,
+          react2s = 0,
+          react3s = 0;
+        let people_liked = [];
+        let people_disliked = [];
+        let people_react1 = [];
+        let people_react2 = [];
+        let people_react3 = [];
+
+        if (reactions.length > 0) {
+          reactions.forEach((r) => {
+            const person = r.profile.displayName;
+            switch (r.type) {
+              case "like":
+                likes++;
+                people_liked.push(person);
+                break;
+              case "dislike":
+                dislikes++;
+                people_disliked.push(person);
+                break;
+              case "love":
+                react1s++;
+                people_react1.push(person);
+                break;
+              case "laugh":
+                react2s++;
+                people_react2.push(person);
+                break;
+              case "cry":
+                react3s++;
+                people_react3.push(person);
+                break;
+            }
+            if (props.userProfile._id === r.profile._id) {
+              setUserReaction(r.type);
+            }
+          });
+          setCounts(
+            [
+              { type: "likes", count: likes, people: people_liked },
+              { type: "dislikes", count: dislikes, people: people_disliked },
+              { type: "loves", count: react1s, people: people_react1 },
+              { type: "laughs", count: react2s, people: people_react2 },
+              { type: "crys", count: react3s, people: people_react3 },
+            ].sort((a, b) => b.count - a.count)
+          );
+          controller = null;
+        }
+      } catch (error) {}
+    };
+    const id = setInterval(getReactions, TIME_REFRESH_POST_REACTIONS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [counts]);
 
   const handleClick = useCallback(
     (reaction) => {

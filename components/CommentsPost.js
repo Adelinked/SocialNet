@@ -8,6 +8,7 @@ import FormComment from "../components/FormComment";
 import ComReactions from "../components/ComReactions";
 import { displayDate } from "../lib/displayDate";
 import { useAppContext } from "../context";
+import { TIME_REFRESH_COMMENTS } from "../variables";
 
 export default function CommentsPost(props) {
   const { globalState } = useAppContext();
@@ -20,37 +21,71 @@ export default function CommentsPost(props) {
   const postId = props.post._id;
 
   let comments = [];
-  useEffect(() => {
-    getComments();
-  }, [loading]);
 
   useEffect(() => {
-    const id = setInterval(getComments, 15000);
-    return () => clearInterval(id);
-  }, []);
-
-  const getComments = async () => {
-    try {
-      const res = await axios.get(`/api/posts/comments?postId=${postId}`);
-      const isYours = false;
-      if (res.data.data.length > 0) {
-        comments = res.data.data;
-      }
-
-      if (comments.length > 0) {
-        comments = comments.map((r, index) => {
-          isYours = false;
-          if (props.userProfile._id === r.profile._id) {
-            isYours = true;
-          }
-          return { ...r, isYours: isYours };
+    let controller = new AbortController();
+    const getComments = async () => {
+      try {
+        const res = await axios.get(`/api/posts/comments?postId=${postId}`, {
+          signal: controller.signal,
         });
-      }
-      setData(comments);
+        const isYours = false;
+        if (res.data.data.length > 0) {
+          comments = res.data.data;
+        }
+        if (comments.length > 0) {
+          comments = comments.map((r, index) => {
+            isYours = false;
+            if (props.userProfile._id === r.profile._id) {
+              isYours = true;
+            }
+            return { ...r, isYours: isYours };
+          });
+        }
+        setData(comments);
+        controller = null;
 
-      setLoading(false);
-    } catch (error) {}
-  };
+        setLoading(false);
+      } catch (error) {}
+    };
+    getComments();
+    return () => {
+      controller?.abort();
+    };
+  }, [show]);
+
+  useEffect(() => {
+    let controller = new AbortController();
+    const getComments = async () => {
+      try {
+        const res = await axios.get(`/api/posts/comments?postId=${postId}`, {
+          signal: controller.signal,
+        });
+        const isYours = false;
+        if (res.data.data.length > 0) {
+          comments = res.data.data;
+        }
+        if (comments.length > 0) {
+          comments = comments.map((r, index) => {
+            isYours = false;
+            if (props.userProfile._id === r.profile._id) {
+              isYours = true;
+            }
+            return { ...r, isYours: isYours };
+          });
+        }
+        setData(comments);
+        controller = null;
+
+        setLoading(false);
+      } catch (error) {}
+    };
+    const id = setInterval(getComments, TIME_REFRESH_COMMENTS);
+    return () => {
+      controller?.abort();
+      clearInterval(id);
+    };
+  }, [data]);
 
   const handleShow = () => {
     //setLoading(true);

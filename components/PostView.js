@@ -23,18 +23,6 @@ export default function PostView(props) {
   const prefix = post.updatedAt === post.createdAt ? "Posted " : "Edited ";
   const dateLabel = prefix + displayDate(post.updatedAt);
 
-  const handleReactClick = (value) => {
-    const postId = props.post._id;
-    try {
-      const reaction = axios.post(`/api/posts/reactions`, {
-        post: postId,
-        type: value,
-      });
-    } catch (error) {
-      console.log(error.data.msg);
-    }
-  };
-
   return (
     <div className={styles.postView}>
       {!isYours ? (
@@ -50,11 +38,9 @@ export default function PostView(props) {
             variant="filled"
           />
           {post.postImg && (
-            <img
-              alt=""
-              src={post.postImg}
-              style={{ width: "100%", objectFit: "fill" }}
-            ></img>
+            <div className={styles.imgDiv}>
+              <img alt="" src={post.postImg} className={styles.image}></img>
+            </div>
           )}
         </>
       ) : (
