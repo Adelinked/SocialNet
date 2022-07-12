@@ -9,8 +9,10 @@ import Post from "../../models/Post";
 import ProfilesNav from "../../components/ProfilesNav";
 import PostsNav from "../../components/PostsNav";
 import { CircularProgress } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
+import throttle from "lodash.throttle";
+
 import {
   TIME_PROFILES_UPDATE,
   POSTS_LIMIT,
@@ -33,10 +35,23 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
     setSkip(0);
   }, [selectedProf]);
 
+  const handleScroll = () => {
+    console.log("scroll check");
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      setSkip(posts.length);
+    }
+  };
+
+  const throttleScrollHandler = useMemo(
+    () => throttle(handleScroll, 3000),
+    [posts]
+  );
+
   useEffect(() => {
-    document.addEventListener("scroll", handleScroll);
+    document.addEventListener("scroll", throttleScrollHandler);
     return function cleanup() {
-      document.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", throttleScrollHandler);
+      throttleScrollHandler?.cancel();
     };
   });
 
@@ -132,12 +147,6 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
     };
   }, [skip]);
 
-  const handleScroll = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target.documentElement;
-    if (clientHeight + scrollTop === scrollHeight) {
-      setSkip(posts.length);
-    }
-  };
   return (
     <div className="container" style={{ backgroundColor: "var(--color-bgd2)" }}>
       <Head>

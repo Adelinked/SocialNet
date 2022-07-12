@@ -10,9 +10,8 @@ import ProfilesNav from "../components/ProfilesNav";
 import PostComp from "../components/PostComp";
 import PostsNav from "../components/PostsNav";
 import { CircularProgress } from "@mui/material";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import debounce from "lodash.debounce";
 import throttle from "lodash.throttle";
 
 import {
@@ -22,7 +21,6 @@ import {
 } from "../variables";
 
 export default function Home({ profiles, posts_profile, profile }) {
-  const scrollCheckCount = useRef(0);
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState(posts_profile);
   const [profilesCli, setProfilesCli] = useState(profiles);
@@ -33,8 +31,6 @@ export default function Home({ profiles, posts_profile, profile }) {
   const [msg, setMsg] = useState("");
 
   const handleScroll = () => {
-    scrollCheckCount.current++;
-    console.log("scroll check", scrollCheckCount.current);
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
       setSkip(posts.length);
     }
@@ -47,7 +43,7 @@ export default function Home({ profiles, posts_profile, profile }) {
 
   useEffect(() => {
     document.addEventListener("scroll", throttleScrollHandler);
-    return () => {
+    return function cleanup() {
       document.removeEventListener("scroll", throttleScrollHandler);
       throttleScrollHandler?.cancel();
     };
