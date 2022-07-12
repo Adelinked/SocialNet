@@ -36,14 +36,13 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
   }, [selectedProf]);
 
   const handleScroll = () => {
-    console.log("scroll check");
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
       setSkip(posts.length);
     }
   };
 
   const throttleScrollHandler = useMemo(
-    () => throttle(handleScroll, 3000),
+    () => throttle(handleScroll, 300),
     [posts]
   );
 

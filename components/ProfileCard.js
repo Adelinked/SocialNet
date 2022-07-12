@@ -1,7 +1,7 @@
 import styles from "../styles/Profile.module.css";
 import { Avatar, Box, TextField } from "@mui/material";
-import { deepOrange, deepPurple } from "@mui/material/colors";
-import { useEffect, useState } from "react";
+import { deepPurple } from "@mui/material/colors";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { StyledBadge } from "./StyledBadge";
 import { OLD_ONLINE_STATUS } from "../variables";
@@ -31,11 +31,11 @@ export default function ProfileCard({
   const someAbout = props.profile.someAbout;
   const updated = props.profile.updatedAt;
   const scroll = props.scroll;
+  let timeoutId = useRef(null);
 
   const handleMouseOver = (e) => {
     setShowDesc(true);
 
-    const id = setTimeout(() => setShowDesc(false), 2500);
     //clearTimeout(id);
     /*const itemHeight = scroll * 55;
     const screenHeight = window.innerHeight;
@@ -54,6 +54,13 @@ export default function ProfileCard({
   const handleClick = () => {
     router.push(`/profile/UserPosts?name=${name}`);
   };
+
+  useEffect(() => {
+    timeoutId = setTimeout(() => setShowDesc(false), 2500);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [showDesc]);
 
   return (
     <div className={styles.contProfileCard} onClick={handleClick}>

@@ -1,5 +1,5 @@
 import styles from "../styles/Profile.module.css";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -11,7 +11,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useAppContext } from "../context";
-
+import debounce from "lodash.debounce";
 const ProfileForm = ({ formId, profileForm, forNewProfile = true }) => {
   const contentType = "application/json";
   const router = useRouter();
@@ -37,16 +37,14 @@ const ProfileForm = ({ formId, profileForm, forNewProfile = true }) => {
       [name]: value,
     });
   };
-  const handleChgName = async (e) => {
-    const target = e.target;
-    const value = target.value;
-    const name = target.name;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
 
-    if (value.toLowerCase() !== initName.toLowerCase() && value.length > 5) {
+  const checkNameAvalible = async (e) => {
+    const value = e.target.value;
+    if (
+      value.toLowerCase() !== initName.toLowerCase() &&
+      value.length >= 5 &&
+      value.length <= 30
+    ) {
       let name = "";
       try {
         const res = await axios.get(`/api/profiles?diplayName=${value}`);
@@ -60,6 +58,16 @@ const ProfileForm = ({ formId, profileForm, forNewProfile = true }) => {
       }
     }
   };
+
+  const debouncedCheckNameavalible = useMemo(
+    () => debounce(checkNameAvalible, 500),
+    [nameFree]
+  );
+  const handleChgName = async (e) => {
+    handleChange(e);
+    debouncedCheckNameavalible(e);
+  };
+
   /* The PUT method edits an existing entry in the mongodb database. */
   const updateData = async (formValues) => {
     const id = formValues._id;
@@ -188,6 +196,7 @@ const ProfileForm = ({ formId, profileForm, forNewProfile = true }) => {
   }, []);*/
   useEffect(() => {
     document.getElementById("displayName").focus();
+    debouncedCheckNameavalible?.cancel();
   }, []);
   return (
     <div>
