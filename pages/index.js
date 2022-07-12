@@ -10,8 +10,11 @@ import ProfilesNav from "../components/ProfilesNav";
 import PostComp from "../components/PostComp";
 import PostsNav from "../components/PostsNav";
 import { CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import axios from "axios";
+import debounce from "lodash.debounce";
+import throttle from "lodash.throttle";
+
 import {
   TIME_PROFILES_UPDATE,
   POSTS_LIMIT,
@@ -19,6 +22,7 @@ import {
 } from "../variables";
 
 export default function Home({ profiles, posts_profile, profile }) {
+  const scrollCheckCount = useRef(0);
   const { data: session, status } = useSession();
   const [posts, setPosts] = useState(posts_profile);
   const [profilesCli, setProfilesCli] = useState(profiles);
@@ -28,10 +32,24 @@ export default function Home({ profiles, posts_profile, profile }) {
   const [bottomLoad, setBottomLoad] = useState(false);
   const [msg, setMsg] = useState("");
 
+  const handleScroll = () => {
+    scrollCheckCount.current++;
+    console.log("scroll check", scrollCheckCount.current);
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      setSkip(posts.length);
+    }
+  };
+
+  const throttleScrollHandler = useMemo(
+    () => throttle(handleScroll, 300),
+    [posts]
+  );
+
   useEffect(() => {
-    document.addEventListener("scroll", handleScroll);
-    return function cleanup() {
-      document.removeEventListener("scroll", handleScroll);
+    document.addEventListener("scroll", throttleScrollHandler);
+    return () => {
+      document.removeEventListener("scroll", throttleScrollHandler);
+      throttleScrollHandler?.cancel();
     };
   });
 
@@ -106,11 +124,6 @@ export default function Home({ profiles, posts_profile, profile }) {
     };
   }, [skip]);
 
-  const handleScroll = (e) => {
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
-      setSkip(posts.length);
-    }
-  };
   return (
     <div className="container">
       <Head>

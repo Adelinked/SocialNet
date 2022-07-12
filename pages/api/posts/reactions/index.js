@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   const { method } = req;
   const { post, type } = req.body;
   const session = await getSession({ req });
+
   if (!session) {
     return res.status(400).json({ msg: "Invalid Authentication!" });
   }
