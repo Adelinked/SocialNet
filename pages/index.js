@@ -142,7 +142,9 @@ export default function Home({ profiles, posts_profile, profile }) {
             <div className={styles.postsContainer} id="postsContainer">
               <PostComp setPosts={setPosts} posts={posts} />
               <PostsNav posts={posts} setPosts={setPosts} />
-              {bottomLoad && <CircularProgress style={{ margin: "0 50%" }} />}
+              <div className={styles.bottomLoadDiv}>
+                {bottomLoad && <CircularProgress />}
+              </div>
               {msg.length > 0 && (
                 <p style={{ textAlign: "center", fontWeight: "600" }}>{msg}</p>
               )}

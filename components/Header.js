@@ -108,7 +108,7 @@ export default function Header() {
           </Link>
 
           <FontAwesomeIcon
-            title="leave"
+            title="Logout"
             className="btn-signin"
             icon={faDoorOpen}
             style={{

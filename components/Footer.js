@@ -14,7 +14,7 @@ export default function Footer() {
       </a>
       <a
         style={{ fontSize: "22px", marginRight: "5px" }}
-        href="mailto:boulfekhar.adelaziz@gmail.com"
+        href="mailto:adel.adelinked@gmail.com"
         title="Send an email"
         target="_blank"
       >

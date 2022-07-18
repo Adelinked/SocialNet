@@ -39,6 +39,12 @@
   width: 50%;
 }
 
+.bottomLoadDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .main {
     flex-direction: column;

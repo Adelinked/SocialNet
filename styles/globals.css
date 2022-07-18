@@ -26,7 +26,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15vh 0;
+  padding: 12vh 0;
   margin: 0;
 }
 
@@ -38,7 +38,7 @@ a {
   color: #fff;
   padding: 10px;
   width: 100%;
-  height: 15vh;
+  height: 12vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -72,7 +72,6 @@ a {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 .btn-signin {
-  box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -83,14 +82,11 @@ a {
   display: -webkit-box;
   display: flex;
   align-self: center;
-  font-size: 1.2rem;
   line-height: 1;
   margin: 5px;
-  font-weight: 700;
-  padding: 1rem;
-  width: 2rem;
+  padding: 0.8rem;
+
   text-align: center;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-family: inherit;
