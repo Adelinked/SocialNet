@@ -159,7 +159,7 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
             <CircularProgress />
           </div>
         )}
-        {session && (
+        {(session || !session) && (
           <>
             <div className={styles.profilesAside}>
               <ProfilesNav profiles={profilesCli} />
@@ -180,7 +180,7 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
             <div className={styles.futurAside}></div>
           </>
         )}
-        {!session && (
+        {!session && session && (
           <>
             <p className={styles.title}>Please Sign in</p>
           </>
@@ -195,33 +195,37 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
 
 export async function getServerSideProps(context) {
   let profiles,
-    pro,
+    pro = [{ displayName: "Guest", img: "/default-profile.png.png" }],
     selectedProf = [],
     profile_posts = [];
   const name = context.query.name;
 
   const session = await getSession(context);
-  if (!session) {
+  /*if (!session) {
     return {
       redirect: { destination: "/auth/signin" },
     };
-  }
+  }*/
 
   await dbConnect();
 
-  try {
-    pro = await Profile.find({ user: session.user.userId });
-  } catch (error) {}
-  if (!pro || pro.length == 0) {
-    return {
-      redirect: { destination: "/auth/new-user" },
-    };
+  if (session) {
+    try {
+      pro = await Profile.find({ user: session.user.userId });
+    } catch (error) {}
+    if (!pro || pro.length == 0) {
+      return {
+        redirect: { destination: "/auth/new-user" },
+      };
+    }
   }
 
   try {
-    profiles = await Profile.find({ user: { $ne: session.user.userId } }).sort({
-      displayName: -1,
-    });
+    profiles = await Profile.find({ user: { $ne: session?.user.userId } }).sort(
+      {
+        displayName: -1,
+      }
+    );
   } catch (error) {}
 
   selectedProf = await Profile.find({ displayName: String(name) });

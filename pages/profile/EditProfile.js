@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ProfileForm from "../../components/ProfileForm";
 import { useAppContext } from "../../context";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import styles from "../../styles/Home.module.css";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
@@ -45,21 +45,38 @@ export default function EditProfile() {
             <CircularProgress />
           </div>
         )}
-        {session && profile && (
+        {session ? (
+          profile && (
+            <>
+              <div className={styles.profilesAside}></div>
+              <div className={styles.postsContainer}>
+                {" "}
+                <ProfileForm
+                  formId="edit-profile-form"
+                  profileForm={{ displayName, someAbout, age, imgUrl, _id }}
+                  forNewProfile={false}
+                />
+              </div>
+            </>
+          )
+        ) : (
           <>
-            <div className={styles.profilesAside}></div>
-            <div className={styles.postsContainer}>
-              {" "}
-              <ProfileForm
-                formId="edit-profile-form"
-                profileForm={{ displayName, someAbout, age, imgUrl, _id }}
-                forNewProfile={false}
-              />
-            </div>
+            <p className={styles.title}>
+              Please <a href="/auth/signin">Sign in </a>to continue
+            </p>
           </>
         )}
       </main>
       <Footer />
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: { destination: "/auth/signin" },
+    };
+  }
 }

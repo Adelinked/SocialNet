@@ -80,7 +80,7 @@ const FormComment = ({
       });
 
       if (!res.ok) {
-        throw new Error(res.status);
+        toast.error("Unable to delete the comment!");
       } else {
         const { data } = await res.json();
         //setFormValues(data);
@@ -107,7 +107,7 @@ const FormComment = ({
       });
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
-        throw new Error(res.status);
+        toast.error("Unable to update the comment!");
       }
       const { data } = await res.json();
       const updatedAt = "Edited " + displayDate(data.updatedAt);
@@ -128,7 +128,11 @@ const FormComment = ({
       });
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
-        throw new Error(res.status);
+        if (res.status == 401) {
+          toast.error("Only logged profiles can add comments");
+        } else {
+          toast.error("Unable to add the comment!");
+        }
       } else {
         const { data } = await res.json();
         const newComment = {
@@ -157,9 +161,6 @@ const FormComment = ({
     formValidate();
     if (errors.length === 0) {
       forNewComment ? insertData(formValues) : updateData(formValues);
-      forNewComment
-        ? toast.success("Comment added!")
-        : toast.success("Comment updated!");
 
       setClicked(false);
       setEdited(false);

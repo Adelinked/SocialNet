@@ -6,10 +6,7 @@ export default async function handler(req, res) {
   const { method, query } = req;
   await dbConnect();
   const session = await getSession({ req });
-  if (!session) {
-    return res.status(400).json({ msg: "Invalid Authentication!" });
-  }
-  const { user } = session;
+
   switch (method) {
     case "GET":
       try {
@@ -22,7 +19,7 @@ export default async function handler(req, res) {
         } else if (name === undefined) {
           /* find all the data in our database */
           const profiles = await Profile.find({
-            user: { $ne: session.user.userId },
+            user: { $ne: session?.user.userId },
           }).sort({ updatedAt: -1 });
           res.status(200).json({ success: true, data: profiles });
         }
@@ -31,6 +28,10 @@ export default async function handler(req, res) {
       }
       break;
     case "POST":
+      if (!session) {
+        return res.status(401).json({ msg: "Invalid Authentication!" });
+      }
+      const { user } = session;
       const newReq = { ...req.body, onLine: true, user: user.userId };
 
       try {

@@ -12,7 +12,7 @@ import { purple, deepPurple, deepOrange, green } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 
 import Head from "next/head";
-
+import Link from "next/link";
 import styles from "../../styles/Auth.module.css";
 
 import { toast } from "react-toastify";
@@ -141,6 +141,13 @@ export default function ({ session, providers, csrfToken }) {
         {status !== "Loading" ? (
           <form onSubmit={handleSubmit}>
             <p className={styles.loginTitle}>Choose a login Method</p>
+            <Link href="/">
+              <a>
+                <p style={{ textAlign: "center", fontSize: "1.2rem" }}>
+                  Or continue as guest!
+                </p>
+              </a>
+            </Link>
             <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
 
             {Object.values(providers).map((provider) => (

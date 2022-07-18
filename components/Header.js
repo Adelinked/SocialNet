@@ -1,8 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useAppContext } from "../context";
-import { Avatar } from "@mui/material";
-import { deepOrange, deepPurple } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorClosed, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
@@ -10,9 +8,11 @@ import { useEffect } from "react";
 import axios from "axios";
 import "font-awesome/css/font-awesome.min.css";
 import { USER_REFRESH_STATUS } from "../variables";
+
 export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
+
   const handleSignin = (e) => {
     e.preventDefault();
     signIn();
@@ -22,13 +22,13 @@ export default function Header() {
     e.preventDefault();
     signOut();
   };
-  let name = null;
-  let img = null;
+  let name = "Guest";
+  let img = "";
+
   const { globalState } = useAppContext();
   const profile = globalState;
   if (session) {
     name = session.user.name ?? session.user.email;
-    name = name + " S";
     img = session.user.image;
   }
   if (profile) {
@@ -37,6 +37,7 @@ export default function Header() {
   }
 
   useEffect(() => {
+    if (!session) return;
     let controller = new AbortController();
     const setProfileOn = async () => {
       if (!profile) return;
@@ -58,6 +59,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    if (!session) return;
     let controller = new AbortController();
     const setProfileOn = async () => {
       if (!profile) return;
@@ -91,7 +93,7 @@ export default function Header() {
           </a>
         </Link>
       </div>
-      {session && (
+      {(session || !session) && (
         <>
           <Link href="/profile/EditProfile">
             <a>
@@ -99,26 +101,16 @@ export default function Header() {
                 <img
                   className="header-avatar"
                   title={name + " (click to update your profile info)"}
-                  alt=""
-                  src={img}
+                  alt={name}
+                  src={img ?? "/anonymous.png"}
                 />
                 <p className="userName"></p>
               </div>
             </a>
           </Link>
-
-          <FontAwesomeIcon
-            title="Logout"
-            className="btn-signin"
-            icon={faDoorOpen}
-            style={{
-              fontSize: 20,
-            }}
-            onClick={handleSignout}
-          />
         </>
       )}
-      {!session && (
+      {!session ? (
         <>
           <FontAwesomeIcon
             className="btn-signin"
@@ -129,6 +121,16 @@ export default function Header() {
             onClick={handleSignin}
           />
         </>
+      ) : (
+        <FontAwesomeIcon
+          title="Logout"
+          className="btn-signin"
+          icon={faDoorOpen}
+          style={{
+            fontSize: 20,
+          }}
+          onClick={handleSignout}
+        />
       )}
     </div>
   );

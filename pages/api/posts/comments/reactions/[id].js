@@ -9,10 +9,10 @@ export default async function handler(req, res) {
   } = req;
   const session = await getSession({ req });
   if (!session) {
-    return res.status(400).json({ msg: "Invalid Authentication!" });
+    return res.status(401).json({ msg: "Invalid Authentication!" });
   }
   await dbConnect();
-  profile = await Profile.find({ user: session.user.userId });
+  profile = await Profile.find({ user: session?.user.userId });
   const { _id } = profile[0];
 
   switch (method) {

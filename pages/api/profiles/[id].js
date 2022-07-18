@@ -8,9 +8,7 @@ export default async function handler(req, res) {
     method,
   } = req;
   const session = await getSession({ req });
-  if (!session) {
-    return res.status(400).json({ msg: "Invalid Authentication!" });
-  }
+
   await dbConnect();
   switch (method) {
     case "GET" /* Get a model by its ID */:
@@ -26,6 +24,9 @@ export default async function handler(req, res) {
       break;
 
     case "PUT" /* Edit a model by its ID */:
+      if (!session) {
+        return res.status(401).json({ msg: "Invalid Authentication!" });
+      }
       try {
         const profile = await Profile.findByIdAndUpdate(id, req.body, {
           new: true,
@@ -43,6 +44,9 @@ export default async function handler(req, res) {
       break;
 
     case "DELETE" /* Delete a model by its ID */:
+      if (!session) {
+        return res.status(401).json({ msg: "Invalid Authentication!" });
+      }
       try {
         const deletedProfile = await Profile.deleteOne({ _id: id });
         if (!deletedProfile) {

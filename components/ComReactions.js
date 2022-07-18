@@ -1,7 +1,7 @@
 import styles from "../styles/Reaction.module.css";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 import ReactionComp from "./ReactionComp";
 import { TIME_REFRESH_COMMENT_REACTIONS } from "../variables";
@@ -207,7 +207,11 @@ export default function ComReactions(props) {
         comment: comId,
         type: value,
       });
-    } catch (error) {}
+    } catch (error) {
+      if (error?.response?.status == 401) {
+        toast.error("Only logged profiles can react to comments");
+      }
+    }
   };
   return (
     <div className={styles.container}>

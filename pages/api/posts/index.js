@@ -7,14 +7,9 @@ export default async function handler(req, res) {
   const { method } = req;
 
   const session = await getSession({ req });
-  if (!session) {
-    return res.status(400).json({ msg: "Invalid Authentication!" });
-  }
+
   await dbConnect();
-  let profile;
   try {
-    profile = await Profile.find({ user: session.user.userId });
-    const { _id } = profile[0];
     switch (method) {
       case "GET":
         try {
@@ -40,6 +35,9 @@ export default async function handler(req, res) {
                 select: "displayName age imgUrl someAbout",
               });
           } else {
+            let profile;
+            profile = await Profile.find({ user: session?.user.userId });
+            const { _id } = profile[0];
             const profileSel = await Profile.find({ displayName: name });
             const idSelected = String(profileSel[0]._id);
             result = await Post.find({ profile: idSelected }, undefined, {
@@ -78,6 +76,9 @@ export default async function handler(req, res) {
         break;
       case "POST":
         try {
+          if (!session) {
+            return res.status(401).json({ msg: "Invalid Authentication!" });
+          }
           const post = await Post.create({
             ...req.body,
             profile: _id,

@@ -128,32 +128,35 @@ export default function Home({ profiles, posts_profile, profile }) {
       </Head>
       <Header />
       <main className={styles.main}>
-        {loading && (
+        {loading ? (
           <div className={styles.loading}>
             <CircularProgress />
           </div>
-        )}
-        {session && (
-          <>
-            <div className={styles.profilesAside}>
-              <ProfilesNav profiles={profilesCli} />
-            </div>
-
-            <div className={styles.postsContainer} id="postsContainer">
-              <PostComp setPosts={setPosts} posts={posts} />
-              <PostsNav posts={posts} setPosts={setPosts} />
-              <div className={styles.bottomLoadDiv}>
-                {bottomLoad && <CircularProgress />}
+        ) : (
+          (session || !session) && (
+            <>
+              <div className={styles.profilesAside}>
+                <ProfilesNav profiles={profilesCli} />
               </div>
-              {msg.length > 0 && (
-                <p style={{ textAlign: "center", fontWeight: "600" }}>{msg}</p>
-              )}
-            </div>
 
-            <div className={styles.futurAside}></div>
-          </>
+              <div className={styles.postsContainer} id="postsContainer">
+                <PostComp setPosts={setPosts} posts={posts} />
+                <PostsNav posts={posts} setPosts={setPosts} />
+                <div className={styles.bottomLoadDiv}>
+                  {bottomLoad && <CircularProgress />}
+                </div>
+                {msg.length > 0 && (
+                  <p style={{ textAlign: "center", fontWeight: "600" }}>
+                    {msg}
+                  </p>
+                )}
+              </div>
+
+              <div className={styles.futurAside}></div>
+            </>
+          )
         )}
-        {!session && !loading && (
+        {!session && session && !loading && (
           <>
             <p className={styles.title}>
               Please <a href="/auth/signin">Sign in </a>to continue
@@ -170,26 +173,25 @@ export default function Home({ profiles, posts_profile, profile }) {
 
 export async function getServerSideProps(context) {
   let profiles = [],
-    pro = [],
+    pro = [{ displayName: "Guest", img: "/anonymous.png" }],
     posts_profile = [];
 
   const session = await getSession(context);
-  if (!session) {
-    return {
+  /*if (!session) {
+   return {
       redirect: { destination: "/auth/signin" },
     };
-  }
+  }*/
 
   await dbConnect();
-
-  pro = await Profile.find({ user: session.user.userId });
+  if (session) pro = await Profile.find({ user: session.user.userId });
 
   /* if (pro && pro[0].createdAt === pro[0].updatedAt) {
     return {
       redirect: { destination: "/auth/new-user" },
     };
   }*/
-  if (!pro || pro.length <= 0) {
+  if (session && (!pro || pro.length <= 0)) {
     return {
       redirect: { destination: "/auth/new-user" },
     };
@@ -199,9 +201,11 @@ export async function getServerSideProps(context) {
   //console.log(session);
 
   try {
-    profiles = await Profile.find({ user: { $ne: session.user.userId } }).sort({
-      updatedAt: -1,
-    });
+    profiles = await Profile.find({ user: { $ne: session?.user.userId } }).sort(
+      {
+        updatedAt: -1,
+      }
+    );
   } catch (error) {}
 
   try {

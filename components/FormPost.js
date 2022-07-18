@@ -86,7 +86,8 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
       });
 
       if (!res.ok) {
-        throw new Error(res.status);
+        //throw new Error(res.status);
+        toast.error("Unable to delete the post!");
       } else {
         const { data } = await res.json();
         toast.success("Post deleted!");
@@ -94,6 +95,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
 
         handleClose();
         //relaodHomePage();
+        toast.success("Post added!");
       }
     } catch (error) {}
   };
@@ -143,7 +145,12 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
       });
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
-        throw new Error(res.status);
+        //throw new Error(res.status);
+        if (res.status == 401) {
+          toast.error("Only logged profiles can add posts");
+        } else {
+          toast.error("Unable to add the post!");
+        }
       } else {
         const { data } = await res.json();
 
@@ -173,7 +180,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
     formValidate();
     if (errors.length === 0) {
       forNewPost ? insertData(formValues) : updateData(formValues);
-      forNewPost ? toast.success("Post added!") : toast.success("Updated!");
+      //forNewPost ? toast.success("Post added!") : toast.success("Updated!");
       if (forNewPost) {
         setFormValues(postForm);
       }

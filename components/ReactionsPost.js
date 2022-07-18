@@ -6,6 +6,7 @@ import { CircularProgress } from "@mui/material";
 import ReactionComp from "./ReactionComp";
 import "font-awesome/css/font-awesome.min.css";
 import { TIME_REFRESH_POST_REACTIONS } from "../variables";
+import { toast } from "react-toastify";
 
 export default function ReactionsPost(props) {
   const [loading, setLoading] = useState(false);
@@ -205,8 +206,13 @@ export default function ReactionsPost(props) {
         post: postId,
         type: value,
       });
+
       setLoading(false);
-    } catch (error) {}
+    } catch (error) {
+      if (error?.response?.status == 401) {
+        toast.error("Only logged profiles can react to posts");
+      }
+    }
   };
   return (
     <div className={styles.container}>
