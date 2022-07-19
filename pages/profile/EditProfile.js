@@ -8,14 +8,17 @@ import styles from "../../styles/Home.module.css";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
+import { GUEST_USER } from "../../variables";
+import Profile from "../../models/profile";
 
-export default function EditProfile() {
+export default function EditProfile({ profile }) {
   const { data: session, status } = useSession();
   const loading = status === "loading";
   const { globalState, setGlobalState } = useAppContext();
 
-  let profile = globalState;
+  /*let profile = globalState;
   async function getProfile() {
+    console.log("get pro");
     let pro;
     try {
       const res = await axios.get(`../api/profiles/userProfile`);
@@ -24,10 +27,8 @@ export default function EditProfile() {
     } catch (error) {}
   }
   useEffect(() => {
-    if (!profile) {
-      getProfile();
-    }
-  }, []);
+    if (session && profile?.displayName == "Guest") getProfile();
+  }, []);*/
   if (profile) {
     const { displayName, someAbout, age, imgUrl, _id } = profile;
   }
@@ -73,10 +74,15 @@ export default function EditProfile() {
 }
 
 export async function getServerSideProps(context) {
+  let pro = [GUEST_USER];
+
   const session = await getSession(context);
   if (!session) {
     return {
       redirect: { destination: "/auth/signin" },
     };
   }
+  pro = await Profile.find({ user: session.user.userId });
+
+  return { props: { profile: JSON.parse(JSON.stringify(pro[0])) } };
 }

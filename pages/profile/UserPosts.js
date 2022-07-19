@@ -172,7 +172,11 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
                 setPosts={setPosts}
                 postsOnly={true}
               />
-              {bottomLoad && <CircularProgress style={{ margin: "0 50%" }} />}
+
+              <div className={styles.bottomLoadDiv}>
+                {bottomLoad && <CircularProgress />}
+              </div>
+
               {msg.length > 0 && (
                 <p style={{ textAlign: "center", fontWeight: "600" }}>{msg}</p>
               )}

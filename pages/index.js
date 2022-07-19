@@ -18,6 +18,7 @@ import {
   TIME_PROFILES_UPDATE,
   POSTS_LIMIT,
   TIME_REFRESH_POSTS,
+  GUEST_USER,
 } from "../variables";
 
 export default function Home({ profiles, posts_profile, profile }) {
@@ -173,7 +174,7 @@ export default function Home({ profiles, posts_profile, profile }) {
 
 export async function getServerSideProps(context) {
   let profiles = [],
-    pro = [{ displayName: "Guest", img: "/anonymous.png" }],
+    pro = [GUEST_USER],
     posts_profile = [];
 
   const session = await getSession(context);

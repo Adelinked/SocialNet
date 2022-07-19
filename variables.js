@@ -8,3 +8,10 @@ export const TIME_REFRESH_POST_REACTIONS = 60000; /* 1 min */
 export const TIME_REFRESH_COMMENT_REACTIONS = 60000; /* 1 min */
 
 export const POSTS_LIMIT = 5; /* The number of posts fetched at the first render and each time scroll reach the bootom of the page  */
+
+export const GUEST_USER = {
+  displayName: "Guest",
+  imgUrl: "/anonymous.png",
+  someAbout: "about",
+  age: 0,
+};

@@ -129,6 +129,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
       };
       // console.log(posts.map((p) => (data._id === p._id ? data : p)));
       setPosts(posts.map((p) => (updatedPost._id === p._id ? updatedPost : p)));
+      toast.success("Post edited!");
     } catch (error) {}
   };
 
@@ -162,7 +163,7 @@ const FormPost = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
           age: age,
           someAbout: someAbout,
         };
-
+        toast.success("Post added!");
         setPosts([newPost, ...posts]);
       }
     } catch (error) {}

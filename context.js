@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
+import { GUEST_USER } from "./variables";
 const AppContext = createContext();
 
 export function AppWrapper(props) {
@@ -8,7 +8,7 @@ export function AppWrapper(props) {
 
   useEffect(() => {
     if (globalState) return;
-    setGlobalState({ displayName: "Guest", img: "/anonymous.png" });
+    setGlobalState(GUEST_USER);
   }, []);
 
   return (

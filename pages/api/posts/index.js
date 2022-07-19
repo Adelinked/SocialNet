@@ -79,6 +79,9 @@ export default async function handler(req, res) {
           if (!session) {
             return res.status(401).json({ msg: "Invalid Authentication!" });
           }
+          let profile;
+          profile = await Profile.find({ user: session?.user.userId });
+          const { _id } = profile[0];
           const post = await Post.create({
             ...req.body,
             profile: _id,
