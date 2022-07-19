@@ -153,7 +153,9 @@ export default function Home({ profiles, posts_profile, profile }) {
                 )}
               </div>
 
-              <div className={styles.futurAside}></div>
+              <div className={styles.futurAside}>
+                <ProfilesNav profiles={profilesCli} />
+              </div>
             </>
           )
         )}

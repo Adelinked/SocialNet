@@ -101,10 +101,10 @@ export default function Header() {
                 <img
                   className="header-avatar"
                   title={name + " (click to update your profile info)"}
-                  alt={name}
+                  alt={name[0]}
                   src={img ?? "/anonymous.png"}
                 />
-                <p className="userName"></p>
+                <p className="userName">{name}</p>
               </div>
             </a>
           </Link>
