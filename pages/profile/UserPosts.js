@@ -154,35 +154,38 @@ export default function UserPosts({ profiles, profile_posts, selectedProf }) {
       </Head>
       <Header />
       <main className={styles.main}>
-        {loading && (
+        {loading ? (
           <div className={styles.loading}>
             <CircularProgress />
           </div>
-        )}
-        {(session || !session) && (
-          <>
-            <div className={styles.profilesAside}>
-              <ProfilesNav profiles={profilesCli} />
-            </div>
-
-            <div className={styles.postsContainer} id="postsContainer">
-              <PostsNav
-                posts={posts}
-                selectedProf={selectedProfCli}
-                setPosts={setPosts}
-                postsOnly={true}
-              />
-
-              <div className={styles.bottomLoadDiv}>
-                {bottomLoad && <CircularProgress />}
+        ) : (
+          (session || !session) && (
+            <>
+              <div className={styles.profilesAside}>
+                <ProfilesNav profiles={profilesCli} />
               </div>
 
-              {msg.length > 0 && (
-                <p style={{ textAlign: "center", fontWeight: "600" }}>{msg}</p>
-              )}
-            </div>
-            <div className={styles.futurAside}></div>
-          </>
+              <div className={styles.postsContainer} id="postsContainer">
+                <PostsNav
+                  posts={posts}
+                  selectedProf={selectedProfCli}
+                  setPosts={setPosts}
+                  postsOnly={true}
+                />
+
+                <div className={styles.bottomLoadDiv}>
+                  {bottomLoad && <CircularProgress />}
+                </div>
+
+                {msg.length > 0 && (
+                  <p style={{ textAlign: "center", fontWeight: "600" }}>
+                    {msg}
+                  </p>
+                )}
+              </div>
+              <div className={styles.futurAside}></div>
+            </>
+          )
         )}
         {!session && session && (
           <>

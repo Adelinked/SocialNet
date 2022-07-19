@@ -56,7 +56,7 @@ export default function ProfileCard({
   };
 
   useEffect(() => {
-    timeoutId = setTimeout(() => setShowDesc(false), 2500);
+    timeoutId = setTimeout(() => setShowDesc(false), 1500);
     return () => {
       clearTimeout(timeoutId);
     };

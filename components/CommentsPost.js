@@ -4,7 +4,7 @@ import axios from "axios";
 
 import { CircularProgress, TextField } from "@mui/material";
 import ProfileCard from "./ProfileCard";
-import FormComment from "../components/FormComment";
+import CommentForm from "../components/Forms/CommentForm";
 import ComReactions from "../components/ComReactions";
 import { displayDate } from "../lib/displayDate";
 import { useAppContext } from "../context";
@@ -113,7 +113,7 @@ export default function CommentsPost(props) {
                   X
                 </span>
               </span>
-              <FormComment
+              <CommentForm
                 formId="new-comment-form"
                 commentForm={{
                   text: "",
@@ -130,7 +130,7 @@ export default function CommentsPost(props) {
                       <div className={styles.profileCom}>
                         <ProfileCard profile={c.profile} avatarOnly={true} />
                         {c.isYours ? (
-                          <FormComment
+                          <CommentForm
                             formId="edit-comment-form"
                             commentForm={{
                               text: c.text ?? "",
@@ -173,7 +173,7 @@ export default function CommentsPost(props) {
                   ))
                 ) : (
                   <>
-                    <p>No comments to display</p>
+                    <p style={{ paddingLeft: "5px" }}>No comments to display</p>
                   </>
                 )}
               </div>

@@ -220,12 +220,13 @@ export default function ReactionsPost(props) {
         <>
           {counts.map((r, index) => (
             <ReactionComp
-              key={postId + index}
+              key={postId + r.type}
               count={r.count}
               type={r.type}
               people={r.people}
               userReaction={userReaction}
               handleClick={handleClick}
+              passKey={postId + r.type}
             />
           ))}
         </>

@@ -15,6 +15,7 @@ export default function ReactionComp(props) {
   const type = props.type;
   const userReaction = props.userReaction + "s";
   const people = props.people;
+  const passKey = props.passKey;
 
   const [mouseOver, setMouseOver] = useState(false);
 
@@ -55,10 +56,10 @@ export default function ReactionComp(props) {
       )}
       {mouseOver && (
         <div className={styles.peopleReacted}>
-          {people && people.length > 0 && (
+          {people?.length > 0 && (
             <>
               {people.map((p) => (
-                <p key={p}>{p}</p>
+                <p key={p + passKey}>{p}</p>
               ))}
             </>
           )}

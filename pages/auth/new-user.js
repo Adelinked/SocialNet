@@ -2,7 +2,7 @@ import Head from "next/head";
 import Header from "../../components/Header";
 import styles from "../../styles/Auth.module.css";
 import { useSession, getSession } from "next-auth/react";
-import ProfileForm from "../../components/ProfileForm";
+import ProfileForm from "../../components/Forms/ProfileForm";
 
 export default function NewUser() {
   const { data: session, status } = useSession();

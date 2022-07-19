@@ -225,6 +225,7 @@ export default function ComReactions(props) {
               people={r.people}
               userReaction={userReaction}
               handleClick={handleClick}
+              passKey={comId + r.type}
             />
           ))}
         </>

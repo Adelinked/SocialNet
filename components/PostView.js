@@ -2,7 +2,7 @@ import { TextField, Avatar } from "@mui/material";
 import styles from "../styles/Post.module.css";
 import { useAppContext } from "../context";
 import { useState } from "react";
-import FormPost from "../components/FormPost";
+import PostForm from "./Forms/PostForm";
 import ReactionsPost from "../components/ReactionsPost";
 import CommentsPost from "../components/CommentsPost";
 
@@ -44,7 +44,7 @@ export default function PostView(props) {
           )}
         </>
       ) : (
-        <FormPost
+        <PostForm
           formId="edit-post-form"
           postForm={{
             text: post.text ?? "",

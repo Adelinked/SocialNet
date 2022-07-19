@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import ProfileForm from "../../components/ProfileForm";
+import ProfileForm from "../../components/Forms/ProfileForm";
 import { useAppContext } from "../../context";
 import { useSession, getSession } from "next-auth/react";
 import styles from "../../styles/Home.module.css";

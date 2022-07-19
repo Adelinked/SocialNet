@@ -1,4 +1,4 @@
-import FormPost from "../components/FormPost";
+import PostForm from "./Forms/PostForm";
 import { useSession } from "next-auth/react";
 import styles from "../styles/Post.module.css";
 
@@ -11,7 +11,7 @@ export default function PostComp(props) {
   };
   return (
     <div className={styles.postContainer}>
-      <FormPost
+      <PostForm
         formId="new-post-form"
         postForm={postForm}
         relaodHomePage={props.relaodHomePage}
