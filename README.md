@@ -27,9 +27,12 @@ Here is a list of the technologies used in this project.
 
 ## Resources used
 
-- [with-mongodb-mongoose](https://github.com/vercel/next.js/tree/canary/examples/with-mongodb-mongoose) - An example to show shows how you can use a MongoDB database to support your Next.js application.
+- [with-mongodb-mongoose](https://github.com/vercel/next.js/tree/canary/examples/with-mongodb-mongoose) - An example to show how you can use a MongoDB database to support your Next.js application.
 
 ## How to use
+
+I am writing the installation procedure ...
+You can see the the result of the application deployed here: https://socialnet-adelinked.netlify.app
 
 ## License
 
