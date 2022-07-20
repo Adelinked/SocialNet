@@ -131,7 +131,7 @@ const CommentForm = ({
       // Throw error with status code in case Fetch API req failed
       if (!res.ok) {
         if (res.status == 401) {
-          toast.error("Only logged profiles can add comments");
+          toast.error("Only authenticated users can add comments!");
         } else {
           toast.error("Unable to add the comment!");
         }

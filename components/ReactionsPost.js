@@ -210,7 +210,7 @@ export default function ReactionsPost(props) {
       setLoading(false);
     } catch (error) {
       if (error?.response?.status == 401) {
-        toast.error("Only logged profiles can react to posts");
+        toast.error("Only authenticated users can react to posts!");
       }
     }
   };

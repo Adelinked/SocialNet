@@ -147,7 +147,7 @@ const PostForm = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
       if (!res.ok) {
         //throw new Error(res.status);
         if (res.status == 401) {
-          toast.error("Only logged profiles can add posts");
+          toast.error("Only authenticated users can add posts!");
         } else {
           toast.error("Unable to add the post!");
         }

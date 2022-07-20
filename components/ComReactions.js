@@ -209,7 +209,7 @@ export default function ComReactions(props) {
       });
     } catch (error) {
       if (error?.response?.status == 401) {
-        toast.error("Only logged profiles can react to comments");
+        toast.error("Only authenticated users can react to comments!");
       }
     }
   };

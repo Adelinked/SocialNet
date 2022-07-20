@@ -37,10 +37,10 @@ export default function Header() {
   }
 
   useEffect(() => {
-    if (!session) return;
     let controller = new AbortController();
+
     const setProfileOn = async () => {
-      if (!profile) return;
+      if (!session || !profile) return;
       const id = profile._id;
       try {
         const onLine = await axios.put(
@@ -59,10 +59,10 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (!session) return;
     let controller = new AbortController();
     const setProfileOn = async () => {
-      if (!profile) return;
+      if (!session || !profile) return;
+
       const id = profile._id;
       try {
         const onLine = await axios.put(
