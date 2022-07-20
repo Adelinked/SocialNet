@@ -28,11 +28,12 @@ Here is a list of the technologies used in this project.
 ## Resources used
 
 - [with-mongodb-mongoose](https://github.com/vercel/next.js/tree/canary/examples/with-mongodb-mongoose) - An example to show how you can use a MongoDB database to support your Next.js application.
+- [Upload Images to Cloudinary in React & Next.js](https://www.youtube.com/watch?v=7lhUsK-FxYI) - Learn how to programmatically upload images to Cloudinary from a React app.
 
 ## How to use
 
 I am writing the installation procedure ...
-You can see the the result of the application deployed here: https://socialnet-adelinked.netlify.app
+You can see the the result of the application deployed here: https://adelinked-socialnet.netlify.app
 
 ## License
 
