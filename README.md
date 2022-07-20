@@ -9,6 +9,8 @@ Here are some screenshots of the application:
 ![App Screenshot](https://i.postimg.cc/LXv563N1/Screenshot-2.png)
 ![App Screenshot](https://i.postimg.cc/QMmhpx1L/1658328824217.jpg)
 ![App Screenshot](https://i.postimg.cc/Gh6222Jq/Screenshot-3.png)
+![App Screenshot](https://i.postimg.cc/50JQt0JZ/Screenshot-4.png)
+![App Screenshot](https://i.postimg.cc/MZNx0LMG/1658328824263.jpg)
 
 ## License
 
