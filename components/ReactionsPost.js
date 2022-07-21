@@ -1,15 +1,15 @@
 import styles from "../styles/Reaction.module.css";
 import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
 
 import { CircularProgress } from "@mui/material";
 import ReactionComp from "./ReactionComp";
 import { TIME_REFRESH_POST_REACTIONS } from "../variables";
 import { toast } from "react-toastify";
 
+import axios from "axios";
+
 export default function ReactionsPost(props) {
   const [loading, setLoading] = useState(false);
-
   const [counts, setCounts] = useState([
     { type: "likes", count: 0, people: [] },
     { type: "dislikes", count: 0, people: [] },
@@ -96,6 +96,9 @@ export default function ReactionsPost(props) {
         const res = await axios.get(`/api/posts/reactions?postId=${postId}`, {
           signal: controller.signal,
         });
+
+        if (!res?.headers?.connection)
+          return; /* a way to constinue process only when there is new data*/
 
         if (res.data.data.length > 0) {
           reactions = res.data.data;

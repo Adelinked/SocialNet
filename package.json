@@ -16,6 +16,7 @@
     "@mui/material": "^5.5.3",
     "@next-auth/mongodb-adapter": "^1.0.3",
     "axios": "^0.26.1",
+    "axios-cache-adapter": "^2.7.3",
     "bcrypt": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash.debounce": "^4.0.8",

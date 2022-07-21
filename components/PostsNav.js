@@ -1,8 +1,9 @@
 import PostView from "./PostView";
 import ProfileCard from "./ProfileCard";
 import styles from "../styles/Post.module.css";
+import { memo } from "react";
 
-export default function PostsNav(props) {
+function PostsNav(props) {
   return (
     <>
       {props.postsOnly && (
@@ -29,3 +30,5 @@ export default function PostsNav(props) {
     </>
   );
 }
+
+export default memo(PostsNav);
