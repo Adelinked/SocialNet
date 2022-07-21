@@ -116,9 +116,13 @@ a {
 }
 
 .footer {
-  height: 10vh;
+  height: 5vh;
 }
-
+.footerCompParag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media (max-width: 768px) {
   .btn-signin {
     font-size: 1rem;

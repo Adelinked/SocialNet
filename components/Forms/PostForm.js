@@ -3,14 +3,10 @@ import { useAppContext } from "../../context";
 import { toast } from "react-toastify";
 import { displayDate } from "../../lib/displayDate";
 import React from "react";
-
 import AlertDialog from "../AlertDialog";
-
 import { TextField, Button, CircularProgress } from "@mui/material";
 import styles from "../../styles/Post.module.css";
-
-import "font-awesome/css/font-awesome.min.css";
-
+import { FaFileImage } from "react-icons/fa";
 const PostForm = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -309,9 +305,8 @@ const PostForm = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
               {(forNewPost || (!forNewPost && clicked)) && (
                 <>
                   {!fileUp && (
-                    <i
+                    <FaFileImage
                       id="uploadIcon"
-                      className="fa fa-file-image-o"
                       style={{
                         fontSize: 40,
                         color: "#1565C0",
@@ -319,7 +314,7 @@ const PostForm = ({ formId, forNewPost = true, postForm, setPosts, posts }) => {
                         marginLeft: "10px",
                       }}
                       onClick={clickFileOpen}
-                    ></i>
+                    />
                   )}
                   <input
                     id="upload"

@@ -6,9 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDoorClosed, faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
 import axios from "axios";
-import "font-awesome/css/font-awesome.min.css";
 import { USER_REFRESH_STATUS } from "../variables";
-
+import { FaGlobeAmericas } from "react-icons/fa";
 export default function Header() {
   const router = useRouter();
   const { data: session } = useSession();
@@ -89,7 +88,9 @@ export default function Header() {
       <div className="logo">
         <Link href="/">
           <a title="Home page">
-            <i className="fa fa-globe"> SocialNet</i>
+            <i>
+              <FaGlobeAmericas /> SocialNet
+            </i>
           </a>
         </Link>
       </div>
