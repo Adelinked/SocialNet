@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { StyledBadge } from "./StyledBadge";
 import { OLD_ONLINE_STATUS } from "../variables";
+import { ProfileDesc } from "./ProfileDesc";
 
 const checkLastUpdate = (date, time) => {
   const d = new Date(date);
@@ -100,70 +101,7 @@ export default function ProfileCard({
         ></Avatar>
       )}
       {!avatarOnly && <p className={styles.profileName}>{name}</p>}
-      {showDesc &&
-        (!aside ? (
-          <div className={styles.profileView}>
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 1, width: "80%" },
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <Avatar
-                alt="Remy Sharp"
-                className={styles.avatarView}
-                src={imgSrc}
-                variant="square"
-              />
-              <TextField
-                variant="standard"
-                id="displayName"
-                name="displayName"
-                value={name}
-                label="Name:"
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-              <TextField
-                variant="standard"
-                label="Age (years):"
-                name="age"
-                type="text"
-                value={age}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-
-              <TextField
-                multiline
-                maxRows={4}
-                label="About"
-                name="someAbout"
-                type="text"
-                value={someAbout}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
-            </Box>
-          </div>
-        ) : (
-          <div className={styles.profileViewAside}>
-            <TextField
-              variant="standard"
-              id="displayName"
-              name="displayName"
-              value={name}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </div>
-        ))}
+      <ProfileDesc showDesc={showDesc} aside={aside} {...props.profile} />
     </div>
   );
 }

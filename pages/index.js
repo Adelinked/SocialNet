@@ -45,8 +45,8 @@ export default function Home({ profiles, posts_profile, profile }) {
   useEffect(() => {
     document.addEventListener("scroll", throttleScrollHandler);
     return function cleanup() {
-      document.removeEventListener("scroll", throttleScrollHandler);
       throttleScrollHandler?.cancel();
+      document.removeEventListener("scroll", throttleScrollHandler);
     };
   });
 
