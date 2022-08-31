@@ -1,11 +1,33 @@
 import styles from "../styles/Profile.module.css";
 import { Avatar, Box, TextField } from "@mui/material";
+import { useEffect, useRef } from "react";
 
-export const ProfileDesc = ({ showDesc, aside, ...rest }) => {
+export const ProfileDesc = ({ showDesc, setShowDesc, aside, ...rest }) => {
   if (!showDesc) return null;
   const { displayName, imgUrl, age, someAbout } = rest;
+  let timeoutId = useRef(null);
+
+  useEffect(() => {
+    const descriptionDiv = document.getElementById(
+      `${displayName}-description`
+    );
+    if (!descriptionDiv) return;
+
+    const maxWidth = aside ? "120px" : "300px";
+
+    if (showDesc) {
+      descriptionDiv.style.width = maxWidth;
+    } else {
+      descriptionDiv.style.width = "0";
+    }
+    timeoutId = setTimeout(() => setShowDesc(false), 1500);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [showDesc]);
+
   return !aside ? (
-    <div className={styles.profileView}>
+    <div className={styles.profileView} id={`${displayName}-description`}>
       <Box
         component="form"
         sx={{
@@ -55,7 +77,7 @@ export const ProfileDesc = ({ showDesc, aside, ...rest }) => {
       </Box>
     </div>
   ) : (
-    <div className={styles.profileViewAside}>
+    <div className={styles.profileViewAside} id={`${displayName}-description`}>
       <TextField
         variant="standard"
         id="displayName"

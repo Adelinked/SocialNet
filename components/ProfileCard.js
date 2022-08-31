@@ -55,14 +55,14 @@ export default function ProfileCard({
   const handleClick = () => {
     router.push(`/profile/UserPosts?name=${name}`);
   };
-
+  /*
   useEffect(() => {
     timeoutId = setTimeout(() => setShowDesc(false), 1500);
     return () => {
       clearTimeout(timeoutId);
     };
   }, [showDesc]);
-
+*/
   return (
     <div className={styles.contProfileCard} onClick={handleClick}>
       {onStatus && checkLastUpdate(updated, OLD_ONLINE_STATUS) ? (
@@ -101,7 +101,12 @@ export default function ProfileCard({
         ></Avatar>
       )}
       {!avatarOnly && <p className={styles.profileName}>{name}</p>}
-      <ProfileDesc showDesc={showDesc} aside={aside} {...props.profile} />
+      <ProfileDesc
+        showDesc={showDesc}
+        setShowDesc={setShowDesc}
+        aside={aside}
+        {...props.profile}
+      />
     </div>
   );
 }
